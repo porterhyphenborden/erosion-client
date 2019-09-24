@@ -1,0 +1,86 @@
+.game {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.tile {
+    border: 1px solid black;
+    width: 20%;
+    height: 70px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    align-self: center;
+    line-height: 70px;
+}
+
+.soil {
+    background-color: rgb(126, 88, 61);
+}
+
+.sandstone {
+    background-color: rgb(248, 243, 200);
+}
+
+.limestone {
+    background-color: rgb(195, 215, 221);
+}
+
+.granite {
+    background-color: rgb(122, 122, 122);
+}
+
+.quartz {
+    background-color: rgb(252, 236, 238);
+}
+
+.button-row {
+    display: flex;
+    flex-direction: row;
+    margin: 0 40px;
+}
+
+.shift-button-vert {
+    width: 20%;
+    text-align: center;
+}
+
+.shift-button-hor {
+    height: 70px;
+    padding: 10px 0;
+}
+
+button.shift-button {
+    cursor: pointer;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    color: none;
+    overflow: hidden;
+    outline: none;
+}
+
+img.chevron {
+    width: 30px;
+    text-align: center;
+    margin: 10px 0 5px 0;
+}
+
+.river-start {
+    background-color: blue;
+}
+
+.river-end {
+    background-color: lightblue;
+}
+
+.river-tile {
+    background-color: blue;
+}
+
