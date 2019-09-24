@@ -330,53 +330,6 @@ export default class Game extends Component {
                     riverDirection: updatedTarget.direction
                 }, () => {this.erodeTarget(this.state.erosionTarget)})
             }
-                // //if tiles to either side are both at least 2 less than target
-                // if (((targetTile.resistance - leftTile.resistance) >= 2) && ((targetTile.resistance - rightTile.resistance) >= 2)) {
-                //     if (this.state.riverEnd.column > column) {
-                //         this.setState({
-                //             erosionTarget: {
-                //                 row: row - 1,
-                //                 column: column + 1
-                //             },
-                //             riverDirection: 'right'
-                //         }, () => {this.erodeTarget(this.state.erosionTarget)})
-                //     }
-                //     else if (this.state.riverEnd.column < column) {
-                //         this.setState({
-                //             erosionTarget: {
-                //                 row: row - 1,
-                //                 column: column - 1
-                //             },
-                //             riverDirection: 'left'
-                //         }, () => {this.erodeTarget(this.state.erosionTarget)})
-                //     }
-                // }
-                // //if left tile resistance is at least 2 less than tile
-                // else if ((targetTile.resistance - leftTile.resistance) >= 2) {
-                //     this.setState({
-                //         erosionTarget: {
-                //             row: row - 1,
-                //             column: column - 1
-                //         },
-                //         riverDirection: 'left'
-                //     }, () => {this.erodeTarget(this.state.erosionTarget)})
-                // }
-                // //if right tile resistance is at least 2 less than tile
-                // else if ((targetTile.resistance - rightTile.resistance) >= 2) {
-                //     this.setState({
-                //         erosionTarget: {
-                //             row: row - 1,
-                //             column: column + 1
-                //         },
-                //         riverDirection: 'right'
-                //     }, () => {this.erodeTarget(this.state.erosionTarget)})
-                // }
-                // //If neither adjacent tile has lower resistance by at least 2, erode current target
-                // else {
-                //     this.erodeTarget(this.state.erosionTarget)
-                // }
-            
-            
         }
            
             //if erosion target, check whether tiles to the other directions have lower resistance by 2
