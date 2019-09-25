@@ -66,6 +66,12 @@ button.shift-button {
     outline: none;
 }
 
+.skip-button {
+    cursor: pointer;
+    width: 160px;
+    align-self: center;
+}
+
 img.chevron {
     width: 30px;
     text-align: center;
