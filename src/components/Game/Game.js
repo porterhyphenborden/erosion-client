@@ -8,8 +8,7 @@ import './Game.css'
 
 //Todos
     //Figure out end of game behavior
-    //Change erosion of first tile to be by 2
-    //decide if end @ any edge is okay
+    //retool erosion phase for edges of board
 
 export default class Game extends Component {
     constructor(props) {
@@ -222,7 +221,41 @@ export default class Game extends Component {
 
     compareResistance(tile1, tile2, target, tile1Row, tile1Column, tile2Row, tile2Column, targetRow, targetColumn, riverEndPoint, tile1Compare, tile2Compare, direction) {
         let newTarget = {}
-        if (((target.resistance - tile1.resistance) >= 2) && ((target.resistance - tile2.resistance) >= 2)) {
+        //If either tile is null, erosion target is at edge of board so disregard that tile in comparison
+        if (tile1 === null) {
+            if ((target.resistance - tile2.resistance) >= 2) {
+                if (tile2.isRiver === true) {
+                    newTarget.row = targetRow
+                    newTarget.column = targetColumn
+                }
+                else if (tile2.isRiver !== true) {
+                    newTarget.row = tile2Row
+                    newTarget.column = tile2Column
+                }
+            }
+            else {
+                newTarget.row = targetRow
+                newTarget.column = targetColumn
+            }
+        }
+        else if (tile2 === null) {
+            if ((target.resistance - tile1.resistance) >= 2) {
+                if (tile1.isRiver === true) {
+                    newTarget.row = targetRow
+                    newTarget.column = targetColumn
+                }
+                else if (tile1.isRiver !== true) {
+                    newTarget.row = tile1Row
+                    newTarget.column = tile1Column
+                }
+            }
+            else {
+                newTarget.row = targetRow
+                newTarget.column = targetColumn
+            }
+        }
+        //If both comparison tiles' resistance is less than target by 2 or more, check if either is a river tile, then check which has lower resistance
+        else if (((target.resistance - tile1.resistance) >= 2) && ((target.resistance - tile2.resistance) >= 2)) {
             if (tile1.isRiver === true) {
                 newTarget.row = tile2Row
                 newTarget.column = tile2Column
@@ -239,6 +272,7 @@ export default class Game extends Component {
                 newTarget.row = tile2Row
                 newTarget.column = tile2Column
             }
+            //If equal resistance, choose by closeness to riverEnd, and if equal, choose randomly
             else if (tile1.resistance === tile2.resistance) {
                 if ((Math.abs(riverEndPoint - tile1Compare)) < (Math.abs(riverEndPoint - tile2Compare))) {
                     newTarget.row = tile1Row
@@ -346,18 +380,26 @@ export default class Game extends Component {
             if (row === this.state.riverStart.row && column === this.state.riverStart.column) {
                 this.erodeTarget(this.state.erosionTarget)
             }
-            //if you are at a corner
-            else if ((row === 0 && column === 0) || (row === 0 && column === 4) || (row === 4 && column === 0) || (row === 4 && column === 4)) {
-                this.erodeTarget(this.state.erosionTarget)
-            }
             //If river direction is down, check whether tiles to the right and left have lower resistance by 2
             else if ((this.state.riverDirection === 'down')) {
                 let leftTileRow = row - 1
                 let leftTileColumn = column - 1
                 let rightTileRow = row - 1
                 let rightTileColumn = column + 1
-                let leftTile = board[leftTileRow][leftTileColumn]
-                let rightTile = board[rightTileRow][rightTileColumn]
+                let leftTile
+                let rightTile
+                if ((leftTileRow < 0 || leftTileRow > 4) || (leftTileColumn < 0 || leftTileColumn > 4)) {
+                    leftTile = null
+                    rightTile = board[rightTileRow][rightTileColumn]
+                }
+                else if ((rightTileRow < 0 || rightTileRow > 4) || (rightTileColumn < 0 || rightTileColumn > 4)) {
+                    leftTile = board[leftTileRow][leftTileColumn]
+                    rightTile = null
+                }
+                else {
+                    leftTile = board[leftTileRow][leftTileColumn]
+                    rightTile = board[rightTileRow][rightTileColumn]
+                }
                 let updatedTarget = this.compareResistance(leftTile, rightTile, targetTile, leftTileRow, leftTileColumn, rightTileRow, rightTileColumn, row, column, this.state.riverEnd.column, leftTileColumn, rightTileColumn, this.state.riverDirection)
                 console.log(updatedTarget)
                 this.setState({
@@ -374,8 +416,20 @@ export default class Game extends Component {
                 let leftTileColumn = column - 1
                 let rightTileRow = row + 1
                 let rightTileColumn = column + 1
-                let leftTile = board[leftTileRow][leftTileColumn]
-                let rightTile = board[rightTileRow][rightTileColumn]
+                let leftTile
+                let rightTile
+                if ((leftTileRow < 0 || leftTileRow > 4) || (leftTileColumn < 0 || leftTileColumn > 4)) {
+                    leftTile = null
+                    rightTile = board[rightTileRow][rightTileColumn]
+                }
+                else if ((rightTileRow < 0 || rightTileRow > 4) || (rightTileColumn < 0 || rightTileColumn > 4)) {
+                    leftTile = board[leftTileRow][leftTileColumn]
+                    rightTile = null
+                }
+                else {
+                    leftTile = board[leftTileRow][leftTileColumn]
+                    rightTile = board[rightTileRow][rightTileColumn]
+                }
                 let updatedTarget = this.compareResistance(leftTile, rightTile, targetTile, leftTileRow, leftTileColumn, rightTileRow, rightTileColumn, row, column, this.state.riverEnd.column, leftTileColumn, rightTileColumn, this.state.riverDirection)
                 console.log(updatedTarget)
                 this.setState({
@@ -392,8 +446,20 @@ export default class Game extends Component {
                 let aboveTileColumn = column - 1
                 let belowTileRow = row + 1
                 let belowTileColumn = column - 1
-                let aboveTile = board[aboveTileRow][aboveTileColumn]
-                let belowTile = board[belowTileRow][belowTileColumn]
+                let aboveTile
+                let belowTile
+                if ((aboveTileRow < 0 || aboveTileRow > 4) || (aboveTileColumn < 0 || aboveTileColumn > 4)) {
+                    aboveTile = null
+                    belowTile = board[belowTileRow][belowTileColumn]
+                }
+                else if ((belowTileRow < 0 || belowTileRow > 4) || (belowTileColumn < 0 || belowTileColumn > 4)) {
+                    aboveTile = board[aboveTileRow][aboveTileColumn]
+                    belowTile = null
+                }
+                else {
+                    aboveTile = board[aboveTileRow][aboveTileColumn]
+                    belowTile = board[belowTileRow][belowTileColumn]
+                }
                 let updatedTarget = this.compareResistance(aboveTile, belowTile, targetTile, aboveTileRow, aboveTileColumn, belowTileRow, belowTileColumn, row, column, this.state.riverEnd.row, aboveTileRow, belowTileRow, this.state.riverDirection)
                 console.log(updatedTarget)
                 this.setState({
@@ -405,13 +471,25 @@ export default class Game extends Component {
                 }, () => {this.erodeTarget(this.state.erosionTarget)})
             }
             //If river direction is left check whether tiles above and below have lower resistance by 2
-            else if ((this.state.riverDirection === 'left') && (row !== 0) && (column !== 0)) {
+            else if (this.state.riverDirection === 'left') {
                 let aboveTileRow = row - 1
                 let aboveTileColumn = column + 1
                 let belowTileRow = row + 1
                 let belowTileColumn = column + 1
-                let aboveTile = board[aboveTileRow][aboveTileColumn]
-                let belowTile = board[belowTileRow][belowTileColumn]
+                let aboveTile
+                let belowTile
+                if ((aboveTileRow < 0 || aboveTileRow > 4) || (aboveTileColumn < 0 || aboveTileColumn > 4)) {
+                    aboveTile = null
+                    belowTile = board[belowTileRow][belowTileColumn]
+                }
+                else if ((belowTileRow < 0 || belowTileRow > 4) || (belowTileColumn < 0 || belowTileColumn > 4)) {
+                    aboveTile = board[aboveTileRow][aboveTileColumn]
+                    belowTile = null
+                }
+                else {
+                    aboveTile = board[aboveTileRow][aboveTileColumn]
+                    belowTile = board[belowTileRow][belowTileColumn]
+                }
                 let updatedTarget = this.compareResistance(aboveTile, belowTile, targetTile, aboveTileRow, aboveTileColumn, belowTileRow, belowTileColumn, row, column, this.state.riverEnd.row, aboveTileRow, belowTileRow, this.state.riverDirection)
                 console.log(updatedTarget)
                 this.setState({
