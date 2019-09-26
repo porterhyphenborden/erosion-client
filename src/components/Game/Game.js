@@ -346,8 +346,12 @@ export default class Game extends Component {
             if (row === this.state.riverStart.row && column === this.state.riverStart.column) {
                 this.erodeTarget(this.state.erosionTarget)
             }
+            //if you are at a corner
+            else if ((row === 0 && column === 0) || (row === 0 && column === 4) || (row === 4 && column === 0) || (row === 4 && column === 4)) {
+                this.erodeTarget(this.state.erosionTarget)
+            }
             //If river direction is down, check whether tiles to the right and left have lower resistance by 2
-            else if ((this.state.riverDirection === 'down') && (row !== 0) && (column !== 0)) {
+            else if ((this.state.riverDirection === 'down')) {
                 let leftTileRow = row - 1
                 let leftTileColumn = column - 1
                 let rightTileRow = row - 1
@@ -365,7 +369,7 @@ export default class Game extends Component {
                 }, () => {this.erodeTarget(this.state.erosionTarget)})
             }
             //If river direction is up check whether tiles above and below have lower resistance by 2
-            else if ((this.state.riverDirection === 'up') && (row !== 0) && (column !== 0)) {
+            else if ((this.state.riverDirection === 'up')) {
                 let leftTileRow = row + 1
                 let leftTileColumn = column - 1
                 let rightTileRow = row + 1
@@ -383,7 +387,7 @@ export default class Game extends Component {
                 }, () => {this.erodeTarget(this.state.erosionTarget)})
             }
             //If river direction is right check whether tiles above and below have lower resistance by 2
-            else if ((this.state.riverDirection === 'right') && (row !== 0) && (column !== 0)) {
+            else if ((this.state.riverDirection === 'right')) {
                 let aboveTileRow = row - 1
                 let aboveTileColumn = column - 1
                 let belowTileRow = row + 1
