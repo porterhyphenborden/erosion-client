@@ -8,7 +8,7 @@ import './Game.css'
 
 //Todos
     //Figure out end of game behavior
-    //retool erosion phase for edges of board
+    //set up timeouts
 
 export default class Game extends Component {
     constructor(props) {
@@ -179,7 +179,7 @@ export default class Game extends Component {
                 columns.push(target.column)
             }
             this.setState({
-                board,
+                board: board,
                 riverPath: riverArray,
                 rowsDisabled: rows,
                 columnsDisabled: columns
@@ -553,10 +553,11 @@ export default class Game extends Component {
 
     renderRows(rowNum) {
         let board = this.state.board
+        let erosionTarget = this.state.erosionTarget
         let row = []
         for (let i = 0; i < 5; i++) {
             row.push(
-                <div className={`tile ${board[rowNum][i].type} ` + (board[rowNum][i].isRiver ? 'river-tile' : '')} key={`${rowNum}${i}`}>{board[rowNum][i].resistance}</div>
+                <div className={`tile ${board[rowNum][i].type} ` + (board[rowNum][i].isRiver ? 'river-tile ' : '') + ((erosionTarget && rowNum === erosionTarget.row && i === erosionTarget.column) ? 'target-tile' : '')} key={`${rowNum}${i}`}>{board[rowNum][i].resistance}</div>
             )
         }
         return (

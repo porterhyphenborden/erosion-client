@@ -90,3 +90,7 @@ img.chevron {
     background-color: blue;
 }
 
+.target-tile {
+    border: 2px solid red;
+}
+
