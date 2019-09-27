@@ -9,6 +9,7 @@ export default class Leaderboard extends Component {
 
     componentDidMount() {
         this.context.setHighScores(data.highScores)
+        this.context.backdropClickHandler()
     }
 
     render() {

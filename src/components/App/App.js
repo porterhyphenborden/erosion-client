@@ -7,11 +7,18 @@ import GamePage from '../../routes/GamePage/GamePage'
 import Leaderboard from '../../routes/Leaderboard/Leaderboard'
 import UserLandingPage from '../../routes/UserLandingPage/UserLandingPage'
 import NotFoundPage from '../../routes/NotFoundPage/NotFoundPage'
+import MobileMenu from '../MobileMenu/MobileMenu'
+import Backdrop from '../Backdrop/Backdrop'
+import ErosionContext from '../../ErosionContext'
 import './App.css'
 
 class App extends Component {
 
-  state = { hasError: false }
+  static contextType = ErosionContext
+
+  state = { 
+    hasError: false,
+  }
 
   static getDerivedStateFromError(error) {
     console.error(error)
@@ -19,12 +26,17 @@ class App extends Component {
   }
 
   render() {
+    let backdrop
+
+    if (this.context.mobileMenuOpen) {
+      backdrop = <Backdrop />
+    }
+
     return (
       <div className='app'>
         <Header />
-        {/* <nav className='main-nav' role='navigation'>
-          <Navigation />
-        </nav> */}
+        <MobileMenu />
+        {backdrop}
         <main>
         {this.state.hasError && <p className='error'>There was an error! Please try again later.</p>}
           <Switch>

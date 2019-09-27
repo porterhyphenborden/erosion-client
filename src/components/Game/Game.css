@@ -23,11 +23,11 @@
 }
 
 .soil {
-    background-color: rgb(126, 88, 61);
+    background-color: rgb(109, 80, 60);
 }
 
 .sandstone {
-    background-color: rgb(248, 243, 200);
+    background-color: rgb(248, 245, 212);
 }
 
 .limestone {
@@ -45,7 +45,7 @@
 .button-row {
     display: flex;
     flex-direction: row;
-    margin: 0 40px;
+    margin: 0 42px;
 }
 
 .shift-button-vert {
@@ -86,7 +86,7 @@ img.chevron {
 }
 
 .river-start {
-    background-color: blue;
+    background-color: rgb(26, 95, 116);
 }
 
 .river-end {
@@ -94,11 +94,11 @@ img.chevron {
 }
 
 .river-tile {
-    background-color: blue;
+    background-color: rgb(26, 95, 116);
 }
 
 .target-tile {
-    border: 2px solid red;
+    border: 2px solid rgb(26, 95, 116);
 }
 
 .final-hidden {

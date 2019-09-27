@@ -1,6 +1,6 @@
 div.welcome {
     width: 70%;
-    margin: 0 auto;
+    margin: 60px auto 0 auto;
 }
 
 @media screen and (max-width: 750px) {

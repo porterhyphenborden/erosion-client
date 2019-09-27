@@ -8,3 +8,52 @@ div.rules {
     font-size: 18px;
     color: darkblue;
 }
+
+div.page-nav {
+    margin: 10px 0 20px 0;
+}
+
+img.screenshot.setup {
+    width: 440px;
+    float: right;
+    margin-top: -40px;
+}
+
+div.screenshot-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 0 20px 0;
+}
+
+div.img-caption-container {
+    width: 50%;
+}
+
+img.screenshot.gameplay {
+    width: 100%;
+}
+
+.screenshot-container p {
+    margin: 0 10px;
+    font-style: italic;
+}
+
+@media screen and (max-width: 750px) {
+    img.screenshot.setup {
+        float: none;
+        width: 100%;
+        max-width: 400px;
+        margin: 0;
+    }
+
+    div.screenshot-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    div.img-caption-container {
+        width: 100%;
+    }
+    
+}

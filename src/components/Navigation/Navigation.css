@@ -6,9 +6,10 @@ nav a:link {
     margin: 8px;
     text-decoration: none;
     font-size: 18px;
-    color: darkblue;
+    font-weight: bold;
+    color: rgb(24, 54, 68);
 }
 
 a:visited {
-    color: darkblue;
+    color: rgb(24, 54, 68);
 }

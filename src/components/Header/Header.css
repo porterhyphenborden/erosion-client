@@ -14,3 +14,9 @@ img.logo {
 link.logo {
     width: 40%;
 }
+
+@media screen and (max-width: 650px) {
+    img.logo {
+        width: 80%;
+    }
+}

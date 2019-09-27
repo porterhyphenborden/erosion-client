@@ -9,6 +9,7 @@ export default class UserLandingPage extends Component {
 
     componentDidMount() {
         this.context.setUserScores(data.userScores)
+        this.context.backdropClickHandler()
     }
 
     render() {

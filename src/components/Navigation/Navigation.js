@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 //import ErosionContext from '../../ErosionContext'
 import './Navigation.css'
+import MobileMenuToggle from '../MobileMenu/MobileMenuToggle';
 
 export default class Navigation extends Component {
 
@@ -68,28 +69,24 @@ export default class Navigation extends Component {
 
         if (isTablet) {
             return (
-                <nav>
-                    <Link to='/play'>
-                        Play Erosion
-                    </Link>
-                </nav>
+                <MobileMenuToggle />
             )
         }
         else {
             return (
-                <nav>
+                <nav className='full-nav' role='navigation'>
                     <Link to='/play'>
                         Play Erosion
-                     </Link>
-                     <Link to='/rules'>
+                    </Link>
+                    <Link to='/rules'>
                         How to Play
-                     </Link>
-                     <Link to='/leaderboard'>
+                    </Link>
+                    <Link to='/leaderboard'>
                         Leaderboard
-                     </Link>
-                     <Link to='/my-games'>
+                    </Link>
+                    <Link to='/my-games'>
                         My Games
-                     </Link>
+                    </Link>
                 </nav>
             )
         }
