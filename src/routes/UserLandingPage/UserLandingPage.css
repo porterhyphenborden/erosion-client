@@ -1,0 +1,26 @@
+div.user-page {
+    margin: 0 auto;
+}
+
+.user-page h2 {
+    text-align: center;
+}
+
+ul.user-scores {
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+}
+
+li.user-score {
+    font-size: 22px;
+    display: flex;
+    flex-direction: row;
+}
+
+.user-scores span {
+    text-align: center;
+    margin: 10px;
+    width: 50%;
+}

@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import data from '../../data'
 import chevronRight from '../../images/chevronright.png'
 import chevronLeft from '../../images/chevronleft.png'
 import chevronUp from '../../images/chevronup.png'
 import chevronDown from '../../images/chevrondown.png'
 import './Game.css'
-
-//Todos
-    //Figure out end of game behavior
-    //set up timeouts
 
 export default class Game extends Component {
     constructor(props) {
@@ -24,6 +21,12 @@ export default class Game extends Component {
             gameOver: false,
             rowsDisabled: [],
             columnsDisabled: []
+        }
+    }
+
+    static defaultProps = {
+        history: {
+          push: () => { }
         }
     }
 
@@ -116,7 +119,7 @@ export default class Game extends Component {
                 soilCount += 1
             }
         }
-        newScore = this.state.score + (soilCount * 100)
+        newScore = this.state.score + (soilCount * 300)
         //calculate ending location bonus
         //if exact tile was reached, bonus multiplier is 1.5
         if ((this.state.riverEnd.row === target.row) && (this.state.riverEnd.column === target.column)) {
@@ -503,6 +506,13 @@ export default class Game extends Component {
         }
     }
 
+    pauseBeforeErosionPhase() {
+        console.log('pause ran')
+        setTimeout(() => {
+            this.erosionPhase()
+        }, 500)
+    }
+
     columnShiftUp(col) {
         let newBoard = this.state.board
         let temp = newBoard[0][col]
@@ -511,7 +521,7 @@ export default class Game extends Component {
         newBoard[2][col] = newBoard[3][col]
         newBoard[3][col] = newBoard[4][col]
         newBoard[4][col] = temp
-        this.setState({ board: newBoard }, () => {this.erosionPhase()})
+        this.setState({ board: newBoard }, () => {this.pauseBeforeErosionPhase()})
     }
 
     columnShiftDown(col) {
@@ -522,7 +532,7 @@ export default class Game extends Component {
         newBoard[2][col] = newBoard[1][col]
         newBoard[1][col] = newBoard[0][col]
         newBoard[0][col] = temp
-        this.setState({ board: newBoard }, () => {this.erosionPhase()})
+        this.setState({ board: newBoard }, () => {this.pauseBeforeErosionPhase()})
     }
 
     rowShiftLeft(row) {
@@ -533,7 +543,7 @@ export default class Game extends Component {
         newBoard[row][2] = newBoard[row][3]
         newBoard[row][3] = newBoard[row][4]
         newBoard[row][4] = temp
-        this.setState({ board: newBoard }, () => {this.erosionPhase()})
+        this.setState({ board: newBoard }, () => {this.pauseBeforeErosionPhase()})
     }
 
     rowShiftRight(row) {
@@ -544,11 +554,11 @@ export default class Game extends Component {
         newBoard[row][2] = newBoard[row][1]
         newBoard[row][1] = newBoard[row][0]
         newBoard[row][0] = temp
-        this.setState({ board: newBoard }, () => {this.erosionPhase()})
+        this.setState({ board: newBoard }, () => {this.pauseBeforeErosionPhase()})
     }
 
     skipShift() {
-        this.erosionPhase()
+        this.pauseBeforeErosionPhase()
     }
 
     renderRows(rowNum) {
@@ -565,6 +575,10 @@ export default class Game extends Component {
                 {row}
             </>
         )
+    }
+
+    reloadRoute = () => {
+        window.location.reload()
     }
 
     render() {
@@ -590,6 +604,13 @@ export default class Game extends Component {
         let col4Disabled = this.state.columnsDisabled.includes(4)
 
         return (
+            <>
+            <div className={this.state.gameOver === false ? 'final-hidden' : 'final-screen'}>
+                <h2>Game Over!</h2>
+                <h3>Final score: {score}</h3>
+                <Link className='game-over-link' to='/play' onClick={() => this.reloadRoute()}>Play Again</Link>
+                <Link className='game-over-link' to='/my-games'>View Your Previous Scores</Link>
+            </div>
             <div className='game'>
                 {this.state.gameOver === false ? <h3>Score: {score}</h3> : <h3>Final Score: {score}</h3>}
                 <div className='button-row'>
@@ -633,6 +654,7 @@ export default class Game extends Component {
                 </div>
                 <button onClick={() => this.skipShift()} className='skip-button'>Skip Row/Column Shift</button>
             </div>
+            </>
         )
     }
 }

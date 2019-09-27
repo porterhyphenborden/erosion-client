@@ -1,0 +1,14 @@
+nav {
+    margin: 0 0 5px 0;
+}
+
+nav a:link {
+    margin: 8px;
+    text-decoration: none;
+    font-size: 18px;
+    color: darkblue;
+}
+
+a:visited {
+    color: darkblue;
+}

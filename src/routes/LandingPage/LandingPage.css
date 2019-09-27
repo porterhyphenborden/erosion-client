@@ -1,0 +1,10 @@
+div.welcome {
+    width: 70%;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 750px) {
+    div.welcome {
+        width: 90%;
+    }
+}

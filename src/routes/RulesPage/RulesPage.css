@@ -1,0 +1,10 @@
+div.rules {
+    margin: 0 10px 0 10px;
+}
+
+.rules a:link {
+    margin: 0 16px 0 0;
+    text-decoration: none;
+    font-size: 18px;
+    color: darkblue;
+}

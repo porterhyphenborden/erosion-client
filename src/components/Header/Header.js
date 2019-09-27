@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import Navigation from '../Navigation/Navigation'
 //import ErosionContext from '../../ErosionContext'
 //import TokenService from '../../services/token-service'
-//import './Header.css'
+import './Header.css'
 import logo from '../../images/erosionlogo.png'
 
 export default class Header extends Component {

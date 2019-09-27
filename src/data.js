@@ -41,5 +41,42 @@ export default {
             'access': 'right'
         },
         'gravity': 'SE'
-        }
+        },
+    'userScores': [
+        {
+            'scoreID': 1,
+            'scoreNum': 1000,
+            'date': '09/15/2019'
+        },
+        {
+            'scoreID': 2,
+            'scoreNum': 1200,
+            'date': '09/16/2019'
+        },
+        {
+            'scoreID': 3,
+            'scoreNum': 2000,
+            'date': '09/17/2019'
+        },
+    ],
+    'highScores': [
+        {
+            'scoreID': 1,
+            'scoreNum': 2200,
+            'date': '09/15/2019',
+            'user': 'BOB SUX'
+        },
+        {
+            'scoreID': 2,
+            'scoreNum': 2000,
+            'date': '09/16/2019',
+            'user': 'BOB SUX'
+        },
+        {
+            'scoreID': 3,
+            'scoreNum': 1900,
+            'date': '09/17/2019',
+            'user': 'BOB SUX'
+        },
+    ]
 }

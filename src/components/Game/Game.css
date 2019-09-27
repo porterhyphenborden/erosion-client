@@ -1,6 +1,8 @@
 .game {
     display: flex;
     flex-direction: column;
+    width: 70%;
+    margin: 0 auto;
 }
 
 .row {
@@ -68,8 +70,13 @@ button.shift-button {
 
 .skip-button {
     cursor: pointer;
-    width: 160px;
     align-self: center;
+    background-color: lightgray;
+    border: 2px solid black;
+    border-radius: 4px;
+    padding: 3px 6px;;
+    font-size: 15px;
+    box-shadow: 2px 2px lightgray;
 }
 
 img.chevron {
@@ -92,5 +99,34 @@ img.chevron {
 
 .target-tile {
     border: 2px solid red;
+}
+
+.final-hidden {
+    display: none;
+}
+
+.final-screen {
+    position: fixed;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.856);
+    width: 100%;
+    z-index: 1;
+    left: 0;
+    top: 120px;
+    padding-top: 60px;
+    color: white;
+    text-align: center;
+}
+
+a.game-over-link {
+    display: block;
+    color: lightblue;
+    font-size: 18px;
+}
+
+@media screen and (max-width: 650px) {
+    div.game {
+        width: 100%;
+    }
 }
 

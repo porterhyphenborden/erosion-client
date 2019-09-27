@@ -1,19 +1,30 @@
 import React, { Component } from 'react'
-//import './UserLandingPage.css'
+import data from '../../data'
+import ErosionContext from '../../ErosionContext'
+import './UserLandingPage.css'
 
 export default class UserLandingPage extends Component {
 
+    static contextType = ErosionContext
+
+    componentDidMount() {
+        this.context.setUserScores(data.userScores)
+    }
+
     render() {
+        const scores = this.context.userScores
         return (
             <div className='user-page'>
-                <h2>My Past Games</h2>
-                <ul>
-                    <li>
-                        Game 1: 1000 points
+                <h2>MY GAMES</h2>
+                <ul className='user-scores'>
+                    <li className='user-score'>
+                        <span>DATE</span><span>SCORE</span>
                     </li>
-                    <li>
-                        Game 2: 900 points
-                    </li>
+                    {scores.map(score =>
+                        <li className='user-score' key={score.scoreID}>
+                            <span>{score.date}</span><span>{score.scoreNum}</span>
+                        </li>
+                    )}
                 </ul>
             </div>
         )

@@ -1,9 +1,28 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 //import ErosionContext from '../../ErosionContext'
-//import './Navigation.css'
+import './Navigation.css'
 
 export default class Navigation extends Component {
+
+    constructor(props) {
+        super(props)
+            this.state = {
+                width: window.innerWidth,
+            }
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.handleWindowSizeChange);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.handleWindowSizeChange);
+    }
+
+    handleWindowSizeChange = () => {
+        this.setState({ width: window.innerWidth });
+    };
 
     // static contextType = ErosionContext
 
@@ -44,21 +63,36 @@ export default class Navigation extends Component {
     // }
 
     render() {
-        return (
-            <nav>
-                <Link to='/play'>
-                    Play Erosion
-                 </Link>
-                 <Link to='/rules'>
-                    How to Play
-                 </Link>
-                 <Link to='/leaderboard'>
-                    Leaderboard
-                 </Link>
-                 <Link to='/my-games'>
-                    My Games
-                 </Link>
-            </nav>
-        )
+        const { width } = this.state
+        const isTablet = width <= 750;
+
+        if (isTablet) {
+            return (
+                <nav>
+                    <Link to='/play'>
+                        Play Erosion
+                    </Link>
+                </nav>
+            )
+        }
+        else {
+            return (
+                <nav>
+                    <Link to='/play'>
+                        Play Erosion
+                     </Link>
+                     <Link to='/rules'>
+                        How to Play
+                     </Link>
+                     <Link to='/leaderboard'>
+                        Leaderboard
+                     </Link>
+                     <Link to='/my-games'>
+                        My Games
+                     </Link>
+                </nav>
+            )
+        }
+        
     }
 }

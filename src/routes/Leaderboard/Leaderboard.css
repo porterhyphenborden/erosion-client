@@ -1,0 +1,37 @@
+div.leaderboard {
+    width: 60%;
+    margin: 0 auto;
+}
+
+.leaderboard h2 {
+    text-align: center;
+}
+
+ul.high-scores {
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+}
+
+li.high-score {
+    font-size: 22px;
+    display: flex;
+    flex-direction: row;
+}
+
+.high-scores span {
+    text-align: center;
+    margin: 10px;
+    width: 35%;
+}
+
+span.rank {
+    width: 25%;
+}
+
+@media screen and (max-width: 650px) {
+    div.leaderboard {
+        width: 100%;
+    }
+}
