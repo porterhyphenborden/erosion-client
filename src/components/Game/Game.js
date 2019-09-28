@@ -50,7 +50,6 @@ export default class Game extends Component {
                 board[i][j].resistanceOriginal = tile.resistance;
             }
         }
-        //console.log(board)
         this.setState({board})
     }
 
@@ -64,7 +63,7 @@ export default class Game extends Component {
                     row: newTarget.row,
                     column: newTarget.column
                 }
-            }, () => console.log(this.state.erosionTarget))
+            })
         }
         else if (this.state.riverDirection === 'up') {
             newTarget.row = target.row - 1
@@ -101,7 +100,6 @@ export default class Game extends Component {
     finalScore(target) {
         let river = this.state.riverPath
         let board = this.state.board
-        console.log(`before multiplier: ${this.state.score.score}`)
         let initialScore = this.state.score.score
         let scoreMultiplier = 1
         let soilCount = 0
@@ -155,11 +153,10 @@ export default class Game extends Component {
                 final: finalScore
             },
             gameOver: true
-        }), () => console.log(this.state.score.final))
+        }))
     }
 
     checkForEnd(target) {
-        console.log('checkForEnd ran')
         //if the target is on an edge && the target is not the start
         if ((((target.row === 0) || (target.row === 4)) && !((target.row === this.state.riverStart.row) && (target.column === this.state.riverStart.column))) || 
            (((target.column === 0) || (target.column === 4)) && !((target.row === this.state.riverStart.row) && (target.column === this.state.riverStart.column)))) {
@@ -171,11 +168,8 @@ export default class Game extends Component {
     }
 
     checkRiver(target) {
-        console.log('checkRiver ran')
         let board = this.state.board
         let tile = board[target.row][target.column]
-        console.log(tile)
-        console.log(this.state.riverDirection)
         if (tile.resistance === 0) {
             tile.isRiver = true
             let riverArray = this.state.riverPath
@@ -201,7 +195,6 @@ export default class Game extends Component {
     }
 
     updateScore(target) {
-        console.log('updateScore ran')
         let tile = this.state.board[target.row][target.column]
         let scoreUpdate = 0
         //if land tile other than soil was fully eroded
@@ -226,7 +219,6 @@ export default class Game extends Component {
     }
 
     erodeTarget(target) {
-        console.log('erodeTarget ran')
         let board = this.state.board
         let tile = board[target.row][target.column]
         if (tile.resistance > 0) {
@@ -365,7 +357,6 @@ export default class Game extends Component {
 
     erosionPhase() {
         //if no erosion target, this is first move, erosion target is riverStart
-        console.log('erosionPhase ran')
         if (this.state.erosionTarget === null) {
             this.setState({
                 erosionTarget: {
@@ -375,7 +366,6 @@ export default class Game extends Component {
             })
             //if riverStart row === 0, riverDirection will be down
             if (this.state.riverStart.row === 0) {
-                console.log('row equals 0')
                 this.setState({riverDirection: 'down'}, () => {this.erodeTarget(this.state.erosionTarget)})
             }
             //if riverStart row !== 0, and riverStart col === 0, riverDirection will be right
@@ -417,7 +407,6 @@ export default class Game extends Component {
                     rightTile = board[rightTileRow][rightTileColumn]
                 }
                 let updatedTarget = this.compareResistance(leftTile, rightTile, targetTile, leftTileRow, leftTileColumn, rightTileRow, rightTileColumn, row, column, this.state.riverEnd.column, leftTileColumn, rightTileColumn, this.state.riverDirection)
-                console.log(updatedTarget)
                 this.setState({
                     erosionTarget: {
                         row: updatedTarget.row,
@@ -447,7 +436,6 @@ export default class Game extends Component {
                     rightTile = board[rightTileRow][rightTileColumn]
                 }
                 let updatedTarget = this.compareResistance(leftTile, rightTile, targetTile, leftTileRow, leftTileColumn, rightTileRow, rightTileColumn, row, column, this.state.riverEnd.column, leftTileColumn, rightTileColumn, this.state.riverDirection)
-                console.log(updatedTarget)
                 this.setState({
                     erosionTarget: {
                         row: updatedTarget.row,
@@ -477,7 +465,6 @@ export default class Game extends Component {
                     belowTile = board[belowTileRow][belowTileColumn]
                 }
                 let updatedTarget = this.compareResistance(aboveTile, belowTile, targetTile, aboveTileRow, aboveTileColumn, belowTileRow, belowTileColumn, row, column, this.state.riverEnd.row, aboveTileRow, belowTileRow, this.state.riverDirection)
-                console.log(updatedTarget)
                 this.setState({
                     erosionTarget: {
                         row: updatedTarget.row,
@@ -507,7 +494,6 @@ export default class Game extends Component {
                     belowTile = board[belowTileRow][belowTileColumn]
                 }
                 let updatedTarget = this.compareResistance(aboveTile, belowTile, targetTile, aboveTileRow, aboveTileColumn, belowTileRow, belowTileColumn, row, column, this.state.riverEnd.row, aboveTileRow, belowTileRow, this.state.riverDirection)
-                console.log(updatedTarget)
                 this.setState({
                     erosionTarget: {
                         row: updatedTarget.row,
@@ -520,7 +506,6 @@ export default class Game extends Component {
     }
 
     pauseBeforeErosionPhase() {
-        console.log('pause ran')
         setTimeout(() => {
             this.erosionPhase()
         }, 500)
