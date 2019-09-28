@@ -109,16 +109,16 @@ export default class Game extends Component {
             let right = river[i].column !== 4 ? board[river[i].row][river[i].column + 1] : null
             let bottom = river[i].row !== 4 ? board[river[i].row + 1][river[i].column] : null
             let left = river[i].column !== 0 ? board[river[i].row][river[i].column - 1] : null
-            if (top && top.type === 'soil') {
+            if (top && top.isRiver !== true && top.type === 'soil') {
                 soilCount += 1
             }
-            if (right && right.type === 'soil') {
+            if (right && right.isRiver !== true && right.type === 'soil') {
                 soilCount += 1
             }
-            if (bottom && bottom.type === 'soil') {
+            if (bottom && bottom.isRiver !== true && bottom.type === 'soil') {
                 soilCount += 1
             }
-            if (left && left.type === 'soil') {
+            if (left && left.isRiver !== true && left.type === 'soil') {
                 soilCount += 1
             }
         }
