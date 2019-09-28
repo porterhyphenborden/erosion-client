@@ -32,6 +32,9 @@ div.img-caption-container {
 
 img.screenshot.gameplay {
     width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    display: block;
 }
 
 .screenshot-container p {
@@ -44,7 +47,8 @@ img.screenshot.gameplay {
         float: none;
         width: 100%;
         max-width: 400px;
-        margin: 0;
+        margin: 0 auto;
+        display: block;
     }
 
     div.screenshot-container {
