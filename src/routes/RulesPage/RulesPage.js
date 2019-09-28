@@ -43,7 +43,7 @@ export default class RulesPage extends Component {
                         <li>Soil - resistance of 1</li>
                     </ul>
                     <p>
-                    The river's starting point is indicated by a dark blue background, and the end point by light blue. The player shift the terrain with the arrow buttons at the top/bottom or right/left of each column or row. The current erosion target is indicated by a red outline.
+                    The river's starting point is indicated by a dark blue background, and the end point by light blue. The player shifts the terrain with the arrow buttons at the top/bottom or right/left of each column or row. The current erosion target is indicated by a red outline.
                     </p>
                 </section>
                 <section>
@@ -62,7 +62,7 @@ export default class RulesPage extends Component {
                         </ul>
                     <h4>Changing course:</h4>
                     <p>
-                    When the river meets a tile with a resistance that is 2 or more higher than one or both tiles to either side of the riverhead, the resistance of those tiles is compared. If both tiles to either side of the riverhead have a lower resistance by two or more, the tile with the lower resistance will be the new erosion target. If there is a tie, the tile closest to the river end point will be eroded, and if again a tile, one will be randomly chosen. The direction of the river then changes, and the tile in it's path is the next erosion target.
+                    When the river meets a tile with a resistance that is 2 or more higher than one or both tiles to either side of the riverhead, the resistance of those tiles is compared. If both tiles to either side of the riverhead have a lower resistance by two or more, the tile with the lower resistance will be the new erosion target. If there is a tie, the tile closest to the river end point will be eroded, and if they are equally close, one will be randomly chosen. The direction of the river then changes, and the tile in it's path is the next erosion target.
                     </p>
                     <div className='screenshot-container'>
                         <div className='img-caption-container'>
@@ -74,6 +74,10 @@ export default class RulesPage extends Component {
                             <p className='mobile-caption'>The river has changed course and fully eroded it's target. That tile has become part of the river. The new target (in red) will be the next tile in line according to the river's direction (in this case, right).</p>
                         </div>
                     </div>
+                    <h4>Locked rows and columns:</h4>
+                    <p>
+                    Once the river has entered a particular row or column, that row/column will be locked and can't be shifted any longer. Try to strategically set up tile positions ahead of time for rows/columns that will soon be locked!
+                    </p>
                 </section>
                 <section>
                     <h3 id="scoring">Scoring</h3>

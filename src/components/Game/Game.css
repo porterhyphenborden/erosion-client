@@ -86,7 +86,7 @@ img.chevron {
 }
 
 .river-start {
-    background-color: rgb(26, 95, 116);
+    background-color: rgb(1, 77, 100);
 }
 
 .river-end {
@@ -94,11 +94,11 @@ img.chevron {
 }
 
 .river-tile {
-    background-color: rgb(26, 95, 116);
+    background-color: rgb(1, 77, 100);
 }
 
 .target-tile {
-    border: 2px solid rgb(26, 95, 116);
+    border: 2px solid rgb(4, 245, 253);
 }
 
 .final-hidden {
@@ -112,7 +112,7 @@ img.chevron {
     width: 100%;
     z-index: 1;
     left: 0;
-    top: 120px;
+    top: 90px;
     padding-top: 60px;
     color: white;
     text-align: center;
@@ -122,11 +122,37 @@ a.game-over-link {
     display: block;
     color: lightblue;
     font-size: 18px;
+    text-decoration: none;
+    margin: 10px;
 }
+
+span.score-factor {
+    margin: 10px;
+}
+
+.color {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    margin: 10px 15px -5px 8px;
+}
+
+.setup-reminders {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
 
 @media screen and (max-width: 650px) {
     div.game {
         width: 100%;
+    }
+
+    .final-screen {
+        top: 70px;
     }
 }
 

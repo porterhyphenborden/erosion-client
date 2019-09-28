@@ -16,7 +16,12 @@ export default class Game extends Component {
             board: [[], [], [], [], []],
             erosionTarget: null,
             riverDirection: null,
-            score: 0,
+            score: {
+                score: 0,
+                soilBonus: 0,
+                locationBonus: 0,
+                final: 0
+            },
             riverPath: [],
             gameOver: false,
             rowsDisabled: [],
@@ -96,8 +101,8 @@ export default class Game extends Component {
     finalScore(target) {
         let river = this.state.riverPath
         let board = this.state.board
-        console.log(`before multiplier: ${this.state.score}`)
-        let newScore
+        console.log(`before multiplier: ${this.state.score.score}`)
+        let initialScore = this.state.score.score
         let scoreMultiplier = 1
         let soilCount = 0
         //check for soil tile bonuses - loop through river tiles and check adjacent tiles for type === 'soil'
@@ -109,17 +114,17 @@ export default class Game extends Component {
             if (top && top.type === 'soil') {
                 soilCount += 1
             }
-            else if (right && right.type === 'soil') {
+            if (right && right.type === 'soil') {
                 soilCount += 1
             }
-            else if (bottom && bottom.type === 'soil') {
+            if (bottom && bottom.type === 'soil') {
                 soilCount += 1
             }
-            else if (left && left.type === 'soil') {
+            if (left && left.type === 'soil') {
                 soilCount += 1
             }
         }
-        newScore = this.state.score + (soilCount * 300)
+        let soilBonus = soilCount * 300
         //calculate ending location bonus
         //if exact tile was reached, bonus multiplier is 1.5
         if ((this.state.riverEnd.row === target.row) && (this.state.riverEnd.column === target.column)) {
@@ -141,11 +146,16 @@ export default class Game extends Component {
                 scoreMultiplier = .75
             }
         }
-        newScore = newScore * scoreMultiplier
+        let finalScore = (initialScore + soilBonus ) * scoreMultiplier
         this.setState(() => ({ 
-            score: newScore,
+            score: {
+                score: initialScore,
+                soilBonus: soilBonus,
+                locationBonus: scoreMultiplier,
+                final: finalScore
+            },
             gameOver: true
-        }), () => console.log(this.state.score))
+        }), () => console.log(this.state.score.final))
     }
 
     checkForEnd(target) {
@@ -198,9 +208,12 @@ export default class Game extends Component {
         if (tile.resistance === 0) {
             if (tile.type !== 'soil') {
                 scoreUpdate = tile.resistanceOriginal * 100
-                let newScore = this.state.score + scoreUpdate
-                this.setState(() => ({ 
-                    score: newScore
+                let newScore = this.state.score.score + scoreUpdate
+                this.setState((prevState) => ({ 
+                    score: {
+                        ...prevState.score,
+                        score: newScore
+                    }
                 }), () => {this.checkRiver(target)})
             }
             else {
@@ -607,12 +620,18 @@ export default class Game extends Component {
             <>
             <div className={this.state.gameOver === false ? 'final-hidden' : 'final-screen'}>
                 <h2>Game Over!</h2>
-                <h3>Final score: {score}</h3>
+                <h3>Final score: {score.final}</h3>
+                <p><span className='score-factor'>Initial Score: {score.score}</span><span className='score-factor'>Soil Tile Bonus: {score.soilBonus}</span><span className='score-factor'>End Location Bonus: Score x {score.locationBonus}</span></p>
                 <Link className='game-over-link' to='/play' onClick={() => this.reloadRoute()}>Play Again</Link>
                 <Link className='game-over-link' to='/my-games'>View Your Previous Scores</Link>
             </div>
             <div className='game'>
-                {this.state.gameOver === false ? <h3>Score: {score}</h3> : <h3>Final Score: {score}</h3>}
+                <div className='setup-reminders'>
+                    <div><span>River start:</span><div className='color river-start'></div></div>
+                    <div><span>River end target:</span><div className='color river-end'></div></div>
+                    <div><span>Erosion target:</span><div className='color target-tile'></div></div>
+                </div>
+                {this.state.gameOver === false ? <h3>Score: {score.score}</h3> : <h3>Final Score: {score.final}</h3>}
                 <div className='button-row'>
                     <div className='shift-button-vert'><button onClick={() => this.columnShiftUp(0)} disabled={col0Disabled} className='shift-button'><img className='chevron vert' src={chevronUp} alt='shift up'/></button></div>
                     <div className={'shift-button-vert ' + ((startRow === 0 && startCol === 1) ? 'river-start' : '')}><button onClick={() => this.columnShiftUp(1)} disabled={col1Disabled} className='shift-button'><img className='chevron vert' src={chevronUp} alt='shift up'/></button></div>
