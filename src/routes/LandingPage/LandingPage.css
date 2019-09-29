@@ -3,6 +3,12 @@ div.welcome {
     margin: 60px auto 0 auto;
 }
 
+p.credit {
+    margin-top: 20px;
+    font-size: 14px;
+    font-style: italic;
+}
+
 @media screen and (max-width: 750px) {
     div.welcome {
         width: 90%;
