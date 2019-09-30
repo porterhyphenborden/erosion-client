@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-//import ErosionContext from '../../ErosionContext'
+import ErosionContext from '../../ErosionContext'
+import TokenService from '../../services/token-service'
 import './Navigation.css'
 import MobileMenuToggle from '../MobileMenu/MobileMenuToggle';
 
@@ -13,59 +14,76 @@ export default class Navigation extends Component {
             }
     }
 
+    static contextType = ErosionContext
+
+    handleLogoutClick = () => {
+        TokenService.clearAuthToken()
+        this.context.setIsLoggedIn()
+    }
+
     componentDidMount() {
-        window.addEventListener('resize', this.handleWindowSizeChange);
+        window.addEventListener('resize', this.handleWindowSizeChange)
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', this.handleWindowSizeChange);
+        window.removeEventListener('resize', this.handleWindowSizeChange)
     }
 
     handleWindowSizeChange = () => {
-        this.setState({ width: window.innerWidth });
-    };
+        this.setState({ width: window.innerWidth })
+    }
 
-    // static contextType = ErosionContext
+    renderNavLoggedIn() {
+        return (
+            <nav className='full-nav' role='navigation'>
+                <Link to='/play'>
+                    Play Erosion
+                </Link>
+                <Link to='/rules'>
+                    How to Play
+                </Link>
+                <Link to='/leaderboard'>
+                    Leaderboard
+                </Link>
+                <Link to='/my-games'>
+                    My Games
+                </Link>
+                <Link
+                    onClick={this.handleLogoutClick}
+                    to='/'>
+                    Logout
+                </Link>
+            </nav>
+        )
+    }
 
-    // renderNavLoggedIn() {
-    //     return (
-    //         <>
-    //             <Link to='/my-games'>
-    //                 My Games
-    //             </Link>
-    //         </>
-    //     )
-    // }
-
-    // renderNavLoggedOut() {
-    //     return (
-    //         <>
-    //             <Link to='/play'>
-    //                 Play Erosion
-    //             </Link>
-    //             <Link to='/rules'>
-    //                 How to Play
-    //             </Link>
-    //             <Link to='/leaderboard'>
-    //                 Leaderboard
-    //             </Link>
-    //         </>
-    //     )
-    // }
-
-    // render() {
-    //     return (
-    //         <>
-    //             {(this.context.isLoggedIn)
-    //                 ? this.renderNavLoggedIn()
-    //                 : this.renderNavLoggedOut()}
-    //         </>
-    //     )
-    // }
+    renderNavLoggedOut() {
+        return (
+            <nav className='full-nav' role='navigation'>
+                <Link to='/play'>
+                    Play Erosion
+                </Link>
+                <Link to='/rules'>
+                    How to Play
+                </Link>
+                <Link to='/leaderboard'>
+                    Leaderboard
+                </Link>
+                <Link
+                    to='/register'>
+                    Register
+                </Link>
+                <Link
+                    to='/login'>
+                    Log in
+                </Link>
+            </nav>
+        )
+    }
 
     render() {
         const { width } = this.state
-        const isTablet = width <= 750;
+        const isTablet = width <= 850;
 
         if (isTablet) {
             return (
@@ -74,20 +92,11 @@ export default class Navigation extends Component {
         }
         else {
             return (
-                <nav className='full-nav' role='navigation'>
-                    <Link to='/play'>
-                        Play Erosion
-                    </Link>
-                    <Link to='/rules'>
-                        How to Play
-                    </Link>
-                    <Link to='/leaderboard'>
-                        Leaderboard
-                    </Link>
-                    <Link to='/my-games'>
-                        My Games
-                    </Link>
-                </nav>
+                <>
+                {(this.context.isLoggedIn)
+                    ? this.renderNavLoggedIn()
+                    : this.renderNavLoggedOut()}
+                </>
             )
         }
         

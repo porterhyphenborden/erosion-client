@@ -9,7 +9,11 @@ import UserLandingPage from '../../routes/UserLandingPage/UserLandingPage'
 import NotFoundPage from '../../routes/NotFoundPage/NotFoundPage'
 import MobileMenu from '../MobileMenu/MobileMenu'
 import Backdrop from '../Backdrop/Backdrop'
+import RegistrationPage from '../../routes/RegistrationPage/RegistrationPage'
+import LoginPage from '../../routes/LoginPage/LoginPage'
 import ErosionContext from '../../ErosionContext'
+import PrivateRoute from '../utils/PrivateRoute'
+import PublicOnlyRoute from '../utils/PublicOnlyRoute'
 import './App.css'
 
 class App extends Component {
@@ -52,15 +56,11 @@ class App extends Component {
               exact path='/leaderboard'
               component={Leaderboard}
             />
-            <Route 
+            <PrivateRoute 
               exact path='/play'
               component={GamePage}
             />
-            <Route 
-              exact path='/my-games'
-              component={UserLandingPage}
-            />
-            {/* <PrivateRoute 
+            <PrivateRoute 
               exact path='/my-games'
               component={UserLandingPage}
             />
@@ -71,7 +71,7 @@ class App extends Component {
             <PublicOnlyRoute 
               exact path='/login'
               component={LoginPage}
-            />  */}
+            />
             <Route
               component={NotFoundPage}
             />
