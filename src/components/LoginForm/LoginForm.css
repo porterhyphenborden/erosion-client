@@ -1,0 +1,20 @@
+form.login-form div.form-group {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0 0 0;
+    font-size: 16px;
+}
+
+form.login-form label, form.login-form input {
+    display: block;
+} 
+
+.login-form button {
+    display: block;
+    margin: 10px auto;
+    font-size: 18px;
+}
+
+.login-form input {
+    font-size: 16px;
+}

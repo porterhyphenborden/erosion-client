@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import AuthApiService from '../../services/auth-api-service'
-//import './RegistrationForm.css'
+import './RegistrationForm.css'
 
 export default class RegistrationForm extends Component {
     state = { error: null }
@@ -48,6 +48,7 @@ export default class RegistrationForm extends Component {
             <form className='registration-form' onSubmit={this.handleSubmit}>
                 <div className='form-group'>
                     <label htmlFor='handle'>Handle</label>
+                    <label htmlFor='handle' className='password-label'>Your handle will be used to identify you on the Leaderboard.</label>
                     <input type='handle' name='handle' id='handle' onChange={e => this.updateHandle(e.target.value)} />
                 </div>
                 <div className='form-group'>

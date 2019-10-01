@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import LoginForm from '../../components/LoginForm/LoginForm'
 import ErosionContext from '../../ErosionContext'
+import './LoginPage.css'
 
 export default class LoginPage extends Component {
     static defaultProps = {
@@ -23,7 +24,7 @@ export default class LoginPage extends Component {
 
     render() {
         return (
-            <section>
+            <section className='login-form'>
                 <h2>Login</h2>
                 <LoginForm
                     onLoginSuccess={this.handleLoginSuccess}

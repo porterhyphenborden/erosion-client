@@ -1,0 +1,24 @@
+form.registration-form div.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+form.registration-form label, form.registration-form input {
+    display: block;
+} 
+
+.registration-form button {
+    display: block;
+    margin: 10px auto;
+    font-size: 18px;
+}
+
+.registration-form input {
+    font-size: 16px;
+}
+
+label.password-label {
+    font-size: 14px;
+}
