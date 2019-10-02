@@ -89,7 +89,6 @@ export default class Game extends Component {
             location_bonus: score.locationBonus,
             map_id: this.state.map
         }
-        console.log(newScore)
         ErosionApiService.postScore(newScore)
             .then(res => {
                 this.setState({ 
