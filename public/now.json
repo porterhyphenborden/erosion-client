@@ -1,14 +1,17 @@
 {
-    "version": 2,
-    "name": "erosion",
-    "routes": [
-        {
-          "src": "^/static/(.*)",
-          "dest": "/static/$1"
-        },
-        {
-          "src": ".*",
-          "dest": "/index.html"
-        }
-    ]
-  }
+  "version": 2,
+  "name": "erosion",
+  "routes": [
+      {
+        "src": "^/static/(.*)",
+        "dest": "/static/$1"
+      },
+      { "src": "^/manifest.json", 
+        "dest": "/manifest.json" 
+      },
+      {
+        "src": ".*",
+        "dest": "/index.html"
+      }
+  ]
+}
