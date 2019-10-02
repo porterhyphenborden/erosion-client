@@ -1,19 +1,19 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import data from '../../data'
 import chevronRight from '../../images/chevronright.png'
 import chevronLeft from '../../images/chevronleft.png'
 import chevronUp from '../../images/chevronup.png'
 import chevronDown from '../../images/chevrondown.png'
 import './Game.css'
+import ErosionApiService from '../../services/erosion-api-service';
 
 export default class Game extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            riverStart: data.board.riverStart,
-            riverEnd: data.board.riverEnd,
-            board: [[], [], [], [], []],
+            riverStart: null,
+            riverEnd: null,
+            board: null,
             erosionTarget: null,
             riverDirection: null,
             score: {
@@ -25,7 +25,9 @@ export default class Game extends Component {
             riverPath: [],
             gameOver: false,
             rowsDisabled: [],
-            columnsDisabled: []
+            columnsDisabled: [],
+            map: null,
+            error: null
         }
     }
 
@@ -33,24 +35,6 @@ export default class Game extends Component {
         history: {
           push: () => { }
         }
-    }
-
-    UNSAFE_componentWillMount() {
-        let tiles = data.tiles
-        let setup = data.board.setup
-        let board = this.state.board
-        for (let i = 0; i < setup.length; i++) {
-            for (let j = 0; j < setup[i].length; j++) {
-                let tile = tiles.find(tile => {
-                    return tile.type === setup[i][j]
-                })
-                board[i][j] = {}
-                board[i][j].type = tile.type;
-                board[i][j].resistance = tile.resistance;
-                board[i][j].resistanceOriginal = tile.resistance;
-            }
-        }
-        this.setState({board})
     }
 
     updateErosionTarget(target) {
@@ -95,6 +79,27 @@ export default class Game extends Component {
                 }
             })
         }
+    }
+
+    postScore(score) {
+        let newScore = {
+            score: score.score,
+            final_score: score.final,
+            soil_bonus: score.soilBonus,
+            location_bonus: score.locationBonus,
+            map_id: this.state.map
+        }
+        console.log(newScore)
+        ErosionApiService.postScore(newScore)
+            .then(res => {
+                this.setState({ 
+                    score: score,
+                    gameOver: true
+                })
+            })
+            .catch(res => {
+                this.setState({ error: res.error })
+            })
     }
 
     finalScore(target) {
@@ -145,15 +150,13 @@ export default class Game extends Component {
             }
         }
         let finalScore = (initialScore + soilBonus ) * scoreMultiplier
-        this.setState(() => ({ 
-            score: {
-                score: initialScore,
-                soilBonus: soilBonus,
-                locationBonus: scoreMultiplier,
-                final: finalScore
-            },
-            gameOver: true
-        }))
+        let newScore = {
+            score: initialScore,
+            soilBonus: soilBonus,
+            locationBonus: scoreMultiplier,
+            final: finalScore
+        }
+        this.postScore(newScore)
     }
 
     checkForEnd(target) {
@@ -373,7 +376,7 @@ export default class Game extends Component {
                 this.setState({riverDirection: 'right'}, () => {this.erodeTarget(this.state.erosionTarget)})
             }
             //if riverStart row !== 0 and riverStart col !==0, riverDirection will be left
-            else if (this.state.riverStart.row !== 0 && this.state.riverStart.column === 0) {
+            else if (this.state.riverStart.row !== 0 && this.state.riverStart.column === 4) {
                 this.setState({riverDirection: 'left'}, () => {this.erodeTarget(this.state.erosionTarget)})
             }
         }
@@ -579,16 +582,62 @@ export default class Game extends Component {
         window.location.reload()
     }
 
+    layoutBoard(board, res) {
+        for (let i = 0; i < 25; i++) {
+            let row = Math.floor(i / 5)
+            let col = i % 5
+            board[row][col] = {}
+            board[row][col].type = res[i].type;
+            board[row][col].resistance = res[i].resistance;
+            board[row][col].resistanceOriginal = res[i].resistance;
+        }
+        return board
+    }
+
+    setBoard(map) {
+        ErosionApiService.getMapByID(map)
+            .then(res => {
+                this.setState({ 
+                    riverStart: {
+                        row: res.river_start_row,
+                        column: res.river_start_column
+                    },
+                    riverEnd: {
+                        row: res.river_end_row,
+                        column: res.river_end_column
+                    }
+                })
+            })
+            .catch(res => {
+                this.setState({ error: res.error })
+            })
+        ErosionApiService.getLayoutByMapID(map)
+            .then(res => {
+                let empty = [[], [], [], [], []]
+                let newBoard = this.layoutBoard(empty, res)
+                this.setState({
+                    board: newBoard
+                })
+            })
+            .catch(res => {
+                this.setState({ error: res.error })
+            })
+    }
+
+    handleSubmit = (event) => {
+        event.preventDefault()
+        const map = event.target.map.value
+        const mapInt = parseInt(map)
+        this.setState({
+            map: mapInt
+        }, () => {this.setBoard(this.state.map)})
+    }
+
     render() {
-        let startCol = this.state.riverStart.column
-        let startRow = this.state.riverStart.row
-        let endRow = this.state.riverEnd.row
-        let endCol = this.state.riverEnd.column
-        let rowOne = this.renderRows(0)
-        let rowTwo = this.renderRows(1)
-        let rowThree = this.renderRows(2)
-        let rowFour = this.renderRows(3)
-        let rowFive = this.renderRows(4)
+        let startCol = this.state.riverStart ? this.state.riverStart.column : null
+        let startRow = this.state.riverStart ? this.state.riverStart.row : null
+        let endRow = this.state.riverEnd ? this.state.riverEnd.row : null
+        let endCol = this.state.riverEnd ? this.state.riverEnd.column : null
         let score = this.state.score
         let row0Disabled = this.state.rowsDisabled.includes(0)
         let row1Disabled = this.state.rowsDisabled.includes(1)
@@ -601,7 +650,31 @@ export default class Game extends Component {
         let col3Disabled = this.state.columnsDisabled.includes(3)
         let col4Disabled = this.state.columnsDisabled.includes(4)
 
-        return (
+        if (this.state.map === null) {
+            return (
+                <form className='map-selection' onSubmit={e => this.handleSubmit(e)}>
+                    <h2>Play Erosion!</h2>
+                    <label htmlFor='map'>Choose a map:</label>
+                    <select name='map' id='map'>
+                        <option value='1'>1</option>
+                        <option value='2'>2</option>
+                        <option value='3'>3</option>
+                        <option value='4'>4</option>
+                        <option value='5'>5</option>
+                    </select>
+                    <button type='submit'>Select</button>
+                </form>
+            )
+        }
+
+        else if (this.state.board === null) {
+            return (
+                <div className='loading'>LOADING</div>
+            )
+        }
+
+        else if (this.state.board !== null && this.state.map !== null) {
+            return (
             <>
             <div className={this.state.gameOver === false ? 'final-hidden' : 'final-screen'}>
                 <h2>Game Over!</h2>
@@ -626,27 +699,27 @@ export default class Game extends Component {
                 </div>
                 <div className='row'>
                     <div className='shift-button-hor'><button onClick={() => this.rowShiftLeft(0)} disabled={row0Disabled} className='shift-button'><img className='chevron hor' src={chevronLeft} alt='shift left'/></button></div>
-                    {rowOne}
+                    {this.renderRows(0)}
                     <div className='shift-button-hor'><button onClick={() => this.rowShiftRight(0)} disabled={row0Disabled} className='shift-button'><img className='chevron hor' src={chevronRight} alt='shift right'/></button></div>
                 </div>
                 <div className='row'>
                     <div className={'shift-button-hor ' + ((startRow === 1 && startCol === 0) ? 'river-start' : '') + ((endRow === 1 && endCol === 0) ? 'river-end' : '')}><button onClick={() => this.rowShiftLeft(1)} disabled={row1Disabled} className='shift-button'><img className='chevron hor' src={chevronLeft} alt='shift left'/></button></div>
-                    {rowTwo}
+                    {this.renderRows(1)}
                     <div className={'shift-button-hor ' + ((startRow === 1 && startCol === 4) ? 'river-start' : '') + ((endRow === 1 && endCol === 4) ? 'river-end' : '')}><button onClick={() => this.rowShiftRight(1)} disabled={row1Disabled} className='shift-button'><img className='chevron hor' src={chevronRight} alt='shift right'/></button></div>
                 </div>
                 <div className='row'>
                     <div className={'shift-button-hor ' + ((startRow === 2 && startCol === 0) ? 'river-start' : '') + ((endRow === 2 && endCol === 0) ? 'river-end' : '')}><button onClick={() => this.rowShiftLeft(2)} disabled={row2Disabled} className='shift-button'><img className='chevron hor' src={chevronLeft} alt='shift left'/></button></div>
-                    {rowThree}
+                    {this.renderRows(2)}
                     <div className={'shift-button-hor ' + ((startRow === 2 && startCol === 4) ? 'river-start' : '') + ((endRow === 2 && endCol === 4) ? 'river-end' : '')}><button onClick={() => this.rowShiftRight(2)} disabled={row2Disabled} className='shift-button'><img className='chevron hor' src={chevronRight} alt='shift right'/></button></div>
                 </div>
                 <div className='row'>
                     <div className={'shift-button-hor ' + ((startRow === 3 && startCol === 0) ? 'river-start' : '') + ((endRow === 3 && endCol === 0) ? 'river-end' : '')}><button onClick={() => this.rowShiftLeft(3)} disabled={row3Disabled} className='shift-button'><img className='chevron hor' src={chevronLeft} alt='shift left'/></button></div>
-                    {rowFour}
+                    {this.renderRows(3)}
                     <div className={'shift-button-hor ' + ((startRow === 3 && startCol === 4) ? 'river-start' : '') + ((endRow === 3 && endCol === 4) ? 'river-end' : '')}><button onClick={() => this.rowShiftRight(3)} disabled={row3Disabled} className='shift-button'><img className='chevron hor' src={chevronRight} alt='shift right'/></button></div>
                 </div>
                 <div className='row'>
                     <div className='shift-button-hor'><button onClick={() => this.rowShiftLeft(4)} disabled={row4Disabled} className='shift-button'><img className='chevron hor' src={chevronLeft} alt='shift left'/></button></div>
-                    {rowFive}
+                    {this.renderRows(4)}
                     <div className='shift-button-hor'><button onClick={() => this.rowShiftRight(4)} disabled={row4Disabled} className='shift-button'><img className='chevron hor' src={chevronRight} alt='shift right'/></button></div>
                 </div>
                 <div className='button-row'>
@@ -660,5 +733,6 @@ export default class Game extends Component {
             </div>
             </>
         )
+        }
     }
 }

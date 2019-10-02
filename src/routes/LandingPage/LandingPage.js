@@ -1,7 +1,13 @@
 import React, { Component } from 'react'
+import ErosionContext from '../../ErosionContext'
 import './LandingPage.css'
 
 export default class LandingPage extends Component {
+    static contextType = ErosionContext
+
+    componentDidMount() {
+        this.context.backdropClickHandler()
+    }
 
     render() {
         return (

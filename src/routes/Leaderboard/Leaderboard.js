@@ -1,15 +1,23 @@
 import React, { Component } from 'react'
-import data from '../../data'
 import ErosionContext from '../../ErosionContext'
+import ErosionApiService from '../../services/erosion-api-service'
 import './Leaderboard.css'
 
 export default class Leaderboard extends Component {
+    state = { error: null }
 
     static contextType = ErosionContext
 
     componentDidMount() {
-        this.context.setHighScores(data.highScores)
         this.context.backdropClickHandler()
+        ErosionApiService.getScores()
+            .then(res => {
+                let highTen = res.slice(0, 9)
+                this.context.setHighScores(highTen)
+            })
+            .catch(res => {
+                this.setState({ error: res.error })
+            })
     }
 
     render() {
@@ -19,9 +27,9 @@ export default class Leaderboard extends Component {
                 <h2>HIGH SCORES</h2>
                 <ul className='high-scores'>
                     <li className='high-score'><span className='rank'>RANK</span><span>SCORE</span><span>NAME</span></li>
-                    {scores.map(score =>
-                        <li className='high-score' key={score.scoreID}>
-                            <span className='rank'>{score.scoreID}</span><span>{score.scoreNum}</span><span>{score.user}</span>
+                    {scores.map((score, i) =>
+                        <li className='high-score' key={score.id}>
+                            <span className='rank'>{i + 1}</span><span>{score.final_score}</span><span>{score.handle}</span>
                         </li>
                     )}
                 </ul>
