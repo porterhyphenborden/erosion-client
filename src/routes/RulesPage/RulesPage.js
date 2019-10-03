@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import ErosionContext from '../../ErosionContext'
 import screenshotSetup from '../../images/screenshot-setup.png'
 import screenshot1 from '../../images/screenshot1.png'
@@ -62,7 +63,7 @@ export default class RulesPage extends Component {
                         </ul>
                     <h4>Changing course:</h4>
                     <p>
-                    When the river meets a tile with a resistance that is 2 or more higher than one or both tiles to either side of the riverhead, the resistance of those tiles is compared. If both tiles to either side of the riverhead have a lower resistance by two or more, the tile with the lower resistance will be the new erosion target. If there is a tie, the tile closest to the river end point will be eroded, and if they are equally close, one will be randomly chosen. The direction of the river then changes, and the tile in it's path is the next erosion target.
+                    The river will either stay on its current course or, if it meets a tile with a higher resistance, change course. When the river meets a tile with a resistance that is two or more higher than one of the tiles to either side of the riverhead, the resistance of those tiles is compared. If both tiles to either side of the riverhead have a lower resistance by two or more, the tile with the lower resistance will be the new erosion target. If there is a tie, the tile closest to the river end point will be eroded, and if they are equally close, one will be randomly chosen. The direction of the river then changes, and the tile in it's path is the next erosion target.
                     </p>
                     <div className='screenshot-container'>
                         <div className='img-caption-container'>
@@ -97,6 +98,10 @@ export default class RulesPage extends Component {
                                 Soil bonus: The more fertile soil along your river, the better! For each river tile, a bonus of 300 point is granted for each adjacent soil tile.
                             </li>
                         </ul>
+                </section>
+                <section className='confused'>
+                    Confused? Just try playing a game and it will all make more sense!
+                    <Link className='play-button' to='/play'>Play Erosion</Link>
                 </section>
             </div>
         )

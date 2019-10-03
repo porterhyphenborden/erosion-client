@@ -4,6 +4,12 @@ import chevronRight from '../../images/chevronright.png'
 import chevronLeft from '../../images/chevronleft.png'
 import chevronUp from '../../images/chevronup.png'
 import chevronDown from '../../images/chevrondown.png'
+import map1 from '../../images/map1.png'
+import map2 from '../../images/map2.png'
+import map3 from '../../images/map3.png'
+import map4 from '../../images/map4.png'
+import map5 from '../../images/map5.png'
+import mysteryMap from '../../images/randommap.png'
 import './Game.css'
 import ErosionApiService from '../../services/erosion-api-service';
 
@@ -26,7 +32,9 @@ export default class Game extends Component {
             gameOver: false,
             rowsDisabled: [],
             columnsDisabled: [],
+            buttonsDisabled: false,
             map: null,
+            mapSelected: false,
             error: null
         }
     }
@@ -97,7 +105,7 @@ export default class Game extends Component {
                 })
             })
             .catch(res => {
-                this.setState({ error: res.error })
+                this.setState({ error: res.error, gameOver: true })
             })
     }
 
@@ -191,8 +199,14 @@ export default class Game extends Component {
                 board: board,
                 riverPath: riverArray,
                 rowsDisabled: rows,
-                columnsDisabled: columns
+                columnsDisabled: columns,
+                buttonsDisabled: false
             }, () => this.checkForEnd(target))
+        }
+        else {
+            this.setState({
+                buttonsDisabled: false
+            })
         }
     }
 
@@ -521,7 +535,10 @@ export default class Game extends Component {
         newBoard[2][col] = newBoard[3][col]
         newBoard[3][col] = newBoard[4][col]
         newBoard[4][col] = temp
-        this.setState({ board: newBoard }, () => {this.pauseBeforeErosionPhase()})
+        this.setState({ 
+            board: newBoard,
+            buttonsDisabled: true 
+        }, () => {this.pauseBeforeErosionPhase()})
     }
 
     columnShiftDown(col) {
@@ -532,7 +549,10 @@ export default class Game extends Component {
         newBoard[2][col] = newBoard[1][col]
         newBoard[1][col] = newBoard[0][col]
         newBoard[0][col] = temp
-        this.setState({ board: newBoard }, () => {this.pauseBeforeErosionPhase()})
+        this.setState({ 
+            board: newBoard,
+            buttonsDisabled: true  
+        }, () => {this.pauseBeforeErosionPhase()})
     }
 
     rowShiftLeft(row) {
@@ -543,7 +563,10 @@ export default class Game extends Component {
         newBoard[row][2] = newBoard[row][3]
         newBoard[row][3] = newBoard[row][4]
         newBoard[row][4] = temp
-        this.setState({ board: newBoard }, () => {this.pauseBeforeErosionPhase()})
+        this.setState({ 
+            board: newBoard,
+            buttonsDisabled: true  
+        }, () => {this.pauseBeforeErosionPhase()})
     }
 
     rowShiftRight(row) {
@@ -554,11 +577,16 @@ export default class Game extends Component {
         newBoard[row][2] = newBoard[row][1]
         newBoard[row][1] = newBoard[row][0]
         newBoard[row][0] = temp
-        this.setState({ board: newBoard }, () => {this.pauseBeforeErosionPhase()})
+        this.setState({ 
+            board: newBoard,
+            buttonsDisabled: true  
+        }, () => {this.pauseBeforeErosionPhase()})
     }
 
     skipShift() {
-        this.pauseBeforeErosionPhase()
+        this.setState({ 
+            buttonsDisabled: true  
+        }, () => {this.pauseBeforeErosionPhase()})
     }
 
     renderRows(rowNum) {
@@ -625,11 +653,21 @@ export default class Game extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault()
-        const map = event.target.map.value
-        const mapInt = parseInt(map)
         this.setState({
-            map: mapInt
+            mapSelected: true
         }, () => {this.setBoard(this.state.map)})
+    }
+
+    updateMap = map => {
+        if (map === 'random') {
+            map = Math.ceil(Math.random() * 5)
+        }
+        else if (map !== null) {
+            map = parseInt(map)
+        }
+        this.setState({
+            map: map
+        })
     }
 
     render() {
@@ -638,6 +676,7 @@ export default class Game extends Component {
         let endRow = this.state.riverEnd ? this.state.riverEnd.row : null
         let endCol = this.state.riverEnd ? this.state.riverEnd.column : null
         let score = this.state.score
+        let buttonsDisabled = this.state.buttonsDisabled
         let row0Disabled = this.state.rowsDisabled.includes(0)
         let row1Disabled = this.state.rowsDisabled.includes(1)
         let row2Disabled = this.state.rowsDisabled.includes(2)
@@ -649,20 +688,34 @@ export default class Game extends Component {
         let col3Disabled = this.state.columnsDisabled.includes(3)
         let col4Disabled = this.state.columnsDisabled.includes(4)
 
-        if (this.state.map === null) {
+        if (this.state.mapSelected === false) {
+            let maps = {
+                1: map1,
+                2: map2,
+                3: map3,
+                4: map4,
+                5: map5
+            }
+
             return (
-                <form className='map-selection' onSubmit={e => this.handleSubmit(e)}>
-                    <h2>Play Erosion!</h2>
-                    <label htmlFor='map'>Choose a map:</label>
-                    <select name='map' id='map'>
-                        <option value='1'>1</option>
-                        <option value='2'>2</option>
-                        <option value='3'>3</option>
-                        <option value='4'>4</option>
-                        <option value='5'>5</option>
-                    </select>
-                    <button type='submit'>Select</button>
-                </form>
+                <>
+                    <form className='map-selection' name='map-selection' onSubmit={e => this.handleSubmit(e)}>
+                        <h2>Play Erosion!</h2>
+                        <label htmlFor='map'>Choose a map:</label>
+                        <select name='map' ref={el => this.el = el} id='map'onChange={e => this.updateMap(e.target.value || null)}>
+                            <option value={null}></option>
+                            <option value='1'>1</option>
+                            <option value='2'>2</option>
+                            <option value='3'>3</option>
+                            <option value='4'>4</option>
+                            <option value='5'>5</option>
+                            <option value='random'>Random Map</option>
+                        </select>
+                        <button type='submit' disabled={this.state.map === null}>Select</button>
+                    </form>
+                    {(this.state.map !== null && this.el.value !== 'random') && <div className='map-preview'><img src={maps[this.state.map]} alt='preview of map'/></div>}
+                    {(this.state.map !== null && this.el.value === 'random') && <div className='map-preview'><img src={mysteryMap} alt='random map'/></div>}
+                </>
             )
         }
 
@@ -672,7 +725,7 @@ export default class Game extends Component {
             )
         }
 
-        else if (this.state.board !== null && this.state.map !== null) {
+        else if (this.state.board !== null && this.state.mapSelected === true) {
             return (
             <>
             <div className={this.state.gameOver === false ? 'final-hidden' : 'final-screen'}>
@@ -690,42 +743,42 @@ export default class Game extends Component {
                 </div>
                 {this.state.gameOver === false ? <h3>Score: {score.score}</h3> : <h3>Final Score: {score.final}</h3>}
                 <div className='button-row'>
-                    <div className='shift-button-vert'><button onClick={() => this.columnShiftUp(0)} disabled={col0Disabled} className='shift-button'><img className='chevron vert' src={chevronUp} alt='shift up'/></button></div>
-                    <div className={'shift-button-vert ' + ((startRow === 0 && startCol === 1) ? 'river-start' : '')}><button onClick={() => this.columnShiftUp(1)} disabled={col1Disabled} className='shift-button'><img className='chevron vert' src={chevronUp} alt='shift up'/></button></div>
-                    <div className={'shift-button-vert ' + ((startRow === 0 && startCol === 2) ? 'river-start' : '')}><button onClick={() => this.columnShiftUp(2)} disabled={col2Disabled} className='shift-button'><img className='chevron vert' src={chevronUp} alt='shift up'/></button></div>
-                    <div className={'shift-button-vert ' + ((startRow === 0 && startCol === 3) ? 'river-start' : '')}><button onClick={() => this.columnShiftUp(3)} disabled={col3Disabled} className='shift-button'><img className='chevron vert' src={chevronUp} alt='shift up'/></button></div>
-                    <div className='shift-button-vert'><button onClick={() => this.columnShiftUp(4)} disabled={col4Disabled} className='shift-button'><img className='chevron vert' src={chevronUp} alt='shift up'/></button></div>
+                    <div className='shift-button-vert'><button onClick={() => this.columnShiftUp(0)} disabled={col0Disabled || buttonsDisabled} className='shift-button'><img className='chevron vert' src={chevronUp} alt='shift up'/></button></div>
+                    <div className={'shift-button-vert ' + ((startRow === 0 && startCol === 1) ? 'river-start' : '')}><button onClick={() => this.columnShiftUp(1)} disabled={col1Disabled || buttonsDisabled} className='shift-button'><img className='chevron vert' src={chevronUp} alt='shift up'/></button></div>
+                    <div className={'shift-button-vert ' + ((startRow === 0 && startCol === 2) ? 'river-start' : '')}><button onClick={() => this.columnShiftUp(2)} disabled={col2Disabled || buttonsDisabled} className='shift-button'><img className='chevron vert' src={chevronUp} alt='shift up'/></button></div>
+                    <div className={'shift-button-vert ' + ((startRow === 0 && startCol === 3) ? 'river-start' : '')}><button onClick={() => this.columnShiftUp(3)} disabled={col3Disabled || buttonsDisabled} className='shift-button'><img className='chevron vert' src={chevronUp} alt='shift up'/></button></div>
+                    <div className='shift-button-vert'><button onClick={() => this.columnShiftUp(4)} disabled={col4Disabled || buttonsDisabled} className='shift-button'><img className='chevron vert' src={chevronUp} alt='shift up'/></button></div>
                 </div>
                 <div className='row'>
-                    <div className='shift-button-hor'><button onClick={() => this.rowShiftLeft(0)} disabled={row0Disabled} className='shift-button'><img className='chevron hor' src={chevronLeft} alt='shift left'/></button></div>
+                    <div className='shift-button-hor'><button onClick={() => this.rowShiftLeft(0)} disabled={row0Disabled || buttonsDisabled} className='shift-button'><img className='chevron hor' src={chevronLeft} alt='shift left'/></button></div>
                     {this.renderRows(0)}
-                    <div className='shift-button-hor'><button onClick={() => this.rowShiftRight(0)} disabled={row0Disabled} className='shift-button'><img className='chevron hor' src={chevronRight} alt='shift right'/></button></div>
+                    <div className='shift-button-hor'><button onClick={() => this.rowShiftRight(0)} disabled={row0Disabled || buttonsDisabled} className='shift-button'><img className='chevron hor' src={chevronRight} alt='shift right'/></button></div>
                 </div>
                 <div className='row'>
-                    <div className={'shift-button-hor ' + ((startRow === 1 && startCol === 0) ? 'river-start' : '') + ((endRow === 1 && endCol === 0) ? 'river-end' : '')}><button onClick={() => this.rowShiftLeft(1)} disabled={row1Disabled} className='shift-button'><img className='chevron hor' src={chevronLeft} alt='shift left'/></button></div>
+                    <div className={'shift-button-hor ' + ((startRow === 1 && startCol === 0) ? 'river-start' : '') + ((endRow === 1 && endCol === 0) ? 'river-end' : '')}><button onClick={() => this.rowShiftLeft(1)} disabled={row1Disabled || buttonsDisabled} className='shift-button'><img className='chevron hor' src={chevronLeft} alt='shift left'/></button></div>
                     {this.renderRows(1)}
-                    <div className={'shift-button-hor ' + ((startRow === 1 && startCol === 4) ? 'river-start' : '') + ((endRow === 1 && endCol === 4) ? 'river-end' : '')}><button onClick={() => this.rowShiftRight(1)} disabled={row1Disabled} className='shift-button'><img className='chevron hor' src={chevronRight} alt='shift right'/></button></div>
+                    <div className={'shift-button-hor ' + ((startRow === 1 && startCol === 4) ? 'river-start' : '') + ((endRow === 1 && endCol === 4) ? 'river-end' : '')}><button onClick={() => this.rowShiftRight(1)} disabled={row1Disabled || buttonsDisabled} className='shift-button'><img className='chevron hor' src={chevronRight} alt='shift right'/></button></div>
                 </div>
                 <div className='row'>
-                    <div className={'shift-button-hor ' + ((startRow === 2 && startCol === 0) ? 'river-start' : '') + ((endRow === 2 && endCol === 0) ? 'river-end' : '')}><button onClick={() => this.rowShiftLeft(2)} disabled={row2Disabled} className='shift-button'><img className='chevron hor' src={chevronLeft} alt='shift left'/></button></div>
+                    <div className={'shift-button-hor ' + ((startRow === 2 && startCol === 0) ? 'river-start' : '') + ((endRow === 2 && endCol === 0) ? 'river-end' : '')}><button onClick={() => this.rowShiftLeft(2)} disabled={row2Disabled || buttonsDisabled} className='shift-button'><img className='chevron hor' src={chevronLeft} alt='shift left'/></button></div>
                     {this.renderRows(2)}
-                    <div className={'shift-button-hor ' + ((startRow === 2 && startCol === 4) ? 'river-start' : '') + ((endRow === 2 && endCol === 4) ? 'river-end' : '')}><button onClick={() => this.rowShiftRight(2)} disabled={row2Disabled} className='shift-button'><img className='chevron hor' src={chevronRight} alt='shift right'/></button></div>
+                    <div className={'shift-button-hor ' + ((startRow === 2 && startCol === 4) ? 'river-start' : '') + ((endRow === 2 && endCol === 4) ? 'river-end' : '')}><button onClick={() => this.rowShiftRight(2)} disabled={row2Disabled || buttonsDisabled} className='shift-button'><img className='chevron hor' src={chevronRight} alt='shift right'/></button></div>
                 </div>
                 <div className='row'>
-                    <div className={'shift-button-hor ' + ((startRow === 3 && startCol === 0) ? 'river-start' : '') + ((endRow === 3 && endCol === 0) ? 'river-end' : '')}><button onClick={() => this.rowShiftLeft(3)} disabled={row3Disabled} className='shift-button'><img className='chevron hor' src={chevronLeft} alt='shift left'/></button></div>
+                    <div className={'shift-button-hor ' + ((startRow === 3 && startCol === 0) ? 'river-start' : '') + ((endRow === 3 && endCol === 0) ? 'river-end' : '')}><button onClick={() => this.rowShiftLeft(3)} disabled={row3Disabled || buttonsDisabled} className='shift-button'><img className='chevron hor' src={chevronLeft} alt='shift left'/></button></div>
                     {this.renderRows(3)}
-                    <div className={'shift-button-hor ' + ((startRow === 3 && startCol === 4) ? 'river-start' : '') + ((endRow === 3 && endCol === 4) ? 'river-end' : '')}><button onClick={() => this.rowShiftRight(3)} disabled={row3Disabled} className='shift-button'><img className='chevron hor' src={chevronRight} alt='shift right'/></button></div>
+                    <div className={'shift-button-hor ' + ((startRow === 3 && startCol === 4) ? 'river-start' : '') + ((endRow === 3 && endCol === 4) ? 'river-end' : '')}><button onClick={() => this.rowShiftRight(3)} disabled={row3Disabled || buttonsDisabled} className='shift-button'><img className='chevron hor' src={chevronRight} alt='shift right'/></button></div>
                 </div>
                 <div className='row'>
-                    <div className='shift-button-hor'><button onClick={() => this.rowShiftLeft(4)} disabled={row4Disabled} className='shift-button'><img className='chevron hor' src={chevronLeft} alt='shift left'/></button></div>
+                    <div className='shift-button-hor'><button onClick={() => this.rowShiftLeft(4)} disabled={row4Disabled || buttonsDisabled} className='shift-button'><img className='chevron hor' src={chevronLeft} alt='shift left'/></button></div>
                     {this.renderRows(4)}
-                    <div className='shift-button-hor'><button onClick={() => this.rowShiftRight(4)} disabled={row4Disabled} className='shift-button'><img className='chevron hor' src={chevronRight} alt='shift right'/></button></div>
+                    <div className='shift-button-hor'><button onClick={() => this.rowShiftRight(4)} disabled={row4Disabled || buttonsDisabled} className='shift-button'><img className='chevron hor' src={chevronRight} alt='shift right'/></button></div>
                 </div>
                 <div className='button-row'>
                     <div className='shift-button-vert'><button onClick={() => this.columnShiftDown(0)} disabled={col0Disabled} className='shift-button'><img className='chevron vert' src={chevronDown} alt='shift down'/></button></div>
-                    <div className={'shift-button-vert ' + ((endRow === 4 && endCol === 1) ? 'river-end' : '')}><button onClick={() => this.columnShiftDown(1)} disabled={col1Disabled} className='shift-button'><img className='chevron vert' src={chevronDown} alt='shift down'/></button></div>
-                    <div className={'shift-button-vert ' + ((endRow === 4 && endCol === 2) ? 'river-end' : '')}><button onClick={() => this.columnShiftDown(2)} disabled={col2Disabled} className='shift-button'><img className='chevron vert' src={chevronDown} alt='shift down'/></button></div>
-                    <div className={'shift-button-vert ' + ((endRow === 4 && endCol === 3) ? 'river-end' : '')}><button onClick={() => this.columnShiftDown(3)} disabled={col3Disabled} className='shift-button'><img className='chevron vert' src={chevronDown} alt='shift down'/></button></div>
+                    <div className={'shift-button-vert ' + ((endRow === 4 && endCol === 1) ? 'river-end' : '')}><button onClick={() => this.columnShiftDown(1)} disabled={col1Disabled || buttonsDisabled} className='shift-button'><img className='chevron vert' src={chevronDown} alt='shift down'/></button></div>
+                    <div className={'shift-button-vert ' + ((endRow === 4 && endCol === 2) ? 'river-end' : '')}><button onClick={() => this.columnShiftDown(2)} disabled={col2Disabled || buttonsDisabled} className='shift-button'><img className='chevron vert' src={chevronDown} alt='shift down'/></button></div>
+                    <div className={'shift-button-vert ' + ((endRow === 4 && endCol === 3) ? 'river-end' : '')}><button onClick={() => this.columnShiftDown(3)} disabled={col3Disabled || buttonsDisabled} className='shift-button'><img className='chevron vert' src={chevronDown} alt='shift down'/></button></div>
                     <div className='shift-button-vert'><button onClick={() => this.columnShiftDown(4)} disabled={col4Disabled} className='shift-button'><img className='chevron vert' src={chevronDown} alt='shift down'/></button></div>
                 </div>
                 <button onClick={() => this.skipShift()} className='skip-button'>Skip Row/Column Shift</button>

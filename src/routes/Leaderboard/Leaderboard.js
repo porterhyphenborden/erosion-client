@@ -12,7 +12,7 @@ export default class Leaderboard extends Component {
         this.context.backdropClickHandler()
         ErosionApiService.getScores()
             .then(res => {
-                let highTen = res.slice(0, 9)
+                let highTen = res.slice(0, 10)
                 this.context.setHighScores(highTen)
             })
             .catch(res => {

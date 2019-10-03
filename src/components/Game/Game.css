@@ -170,6 +170,16 @@ form.map-selection {
     box-shadow: 2px 2px lightgray;
 }
 
+div.map-preview {
+    margin: 10px auto 0 auto;
+    width: 100%;
+    max-width: 400px;
+}
+
+.map-preview img {
+    width: 100%;
+}
+
 
 @media screen and (max-width: 650px) {
     div.game {
@@ -178,6 +188,11 @@ form.map-selection {
 
     .final-screen {
         top: 70px;
+    }
+
+    div.map-preview {
+        margin: 0 auto;
+        width: 100%;
     }
 }
 
