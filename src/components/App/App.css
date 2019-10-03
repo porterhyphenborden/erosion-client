@@ -1,8 +1,7 @@
 .app {
-    margin: 10px auto;
+    margin: 0px;
     height: 100%;
     width: 100%;
-    max-width: 900px;
 }
 
 * {

@@ -2,21 +2,22 @@ header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: baseline;
+    background-color: #123b50;
+    align-items: flex-end;
 }
 
 img.logo {
-    margin-bottom: -8px;
-    margin-left: -5px;
     width: 100%;
 }
 
-link.logo {
+a:link.logo {
     width: 40%;
+    max-width: 310px;
 }
 
-@media screen and (max-width: 650px) {
-    img.logo {
-        width: 80%;
+@media screen and (max-width: 850px) {
+    a:link.logo {
+        width: 65%;
+        max-width: 380px;
     }
 }

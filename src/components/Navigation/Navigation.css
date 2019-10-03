@@ -1,15 +1,20 @@
 nav {
-    margin: 0 0 5px 0;
+    margin: 0 0 3px 0;
 }
 
-nav a:link {
-    margin: 8px;
+.full-nav a:link {
+    display: inline-block;
+    margin: 0 8px 2px 8px;
     text-decoration: none;
     font-size: 18px;
     font-weight: bold;
-    color: rgb(24, 54, 68);
+    color: #a17453;
 }
 
-a:visited {
-    color: rgb(24, 54, 68);
+.full-nav a:visited {
+    color: #a17453;
+}
+
+.full-nav a:hover {
+    color: #469acc;
 }

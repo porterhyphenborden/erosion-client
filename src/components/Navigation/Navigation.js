@@ -83,7 +83,7 @@ export default class Navigation extends Component {
 
     render() {
         const { width } = this.state
-        const isTablet = width <= 850;
+        const isTablet = width <= 875;
 
         if (isTablet) {
             return (
