@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Game from '../../components/Game/Game'
 import ErosionContext from '../../ErosionContext'
+import './GamePage.css'
 
 export default class GamePage extends Component {
 

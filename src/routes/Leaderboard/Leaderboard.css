@@ -1,6 +1,9 @@
 div.leaderboard {
     width: 60%;
-    margin: 40px auto;
+    margin: 40px auto 10px auto;
+    background-color: #123b50;
+    color: #469acc;
+    padding: 10px 0 0 0;
 }
 
 .leaderboard h2 {
@@ -12,10 +15,11 @@ ul.high-scores {
     list-style: none;
     display: flex;
     flex-direction: column;
+    margin: 0;
 }
 
 li.high-score {
-    font-size: 22px;
+    font-size: 26px;
     display: flex;
     flex-direction: row;
 }

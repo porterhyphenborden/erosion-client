@@ -27,14 +27,14 @@ export default class RulesPage extends Component {
                 <section>
                     <h3 id="intro">Intro</h3>
                     <p>
-                    Erosion is a single-player puzzle game where you, an alien colonist, are tasked with terraforming a new planet. Given a map of the terrain, you must manipulate the terrain to make the river reach a future colony site, creating as much fertile soil along the way as possible. You will receive a bonus if the river reaches the desired endpoint, and bonuses for createing fertile land along the way. If the river ends on the wrong side of the map, you will be penalized!
+                    Erosion is a single-player puzzle game where you, an alien colonist, are tasked with terraforming a new planet. Given a map of the terrain, you must manipulate the terrain to make the river reach a future colony site, creating as much fertile soil along the way as possible. You will receive a bonus if the river reaches the desired endpoint, and bonuses for creating fertile land along the way. If the river ends on the wrong side of the map, you will be penalized!
                     </p>
                 </section>
                 <section>
                     <h3 id="setup">Setup</h3>
                     <img src={screenshotSetup} alt='screenshot of game setup' className='screenshot setup' />
                     <p>
-                    The map is made of varying terrain types, with different resistances. A tile may be one of the following:
+                    The map is made of varying terrain tiles, with different resistances. A tile may be one of the following:
                     </p>
                     <ul>
                         <li>Quartz - resistance of 7</li>
@@ -42,9 +42,10 @@ export default class RulesPage extends Component {
                         <li>Limestone - resistance of 3</li>
                         <li>Sandstone - resistance of 2</li>
                         <li>Soil - resistance of 1</li>
+                        <li>Water - a tile becomes water when its resistance is eroded to 0</li>
                     </ul>
                     <p>
-                    The river's starting point is indicated by a dark blue background, and the end point by light blue. The player shifts the terrain with the arrow buttons at the top/bottom or right/left of each column or row. The current erosion target is indicated by a red outline.
+                    The river's starting point is indicated by a dark blue background, and the end point by light blue. The player shifts the terrain with the arrow buttons at the top/bottom or right/left of each column or row. The current erosion target is indicated by a light blue outline.
                     </p>
                 </section>
                 <section>
@@ -55,7 +56,7 @@ export default class RulesPage extends Component {
                                 The player either shifts one row/column of the map, or chooses the leave the map as is.
                             </li>
                             <li>
-                                The riverhead will erode a tile by 1 resistance. The tile that is eroded will either be the tile in the river's course, or, if the tile to either side of the riverhead has a resistance that is 2 or more lower than the tile in the river's course, the river will change course and erode that tile instead. If the tile is eroded to a resistance of zero, that tile becomes part of the river, and it's location is the new riverhead.
+                                The riverhead will erode a tile by 1 resistance. The tile that is eroded will either be the tile in the river's course, or, if the tile to either side of the riverhead has a resistance that is 2 or more lower than the tile in the river's course, the river will change course and erode that tile instead. If the tile is eroded to a resistance of zero, that tile becomes part of the river.
                             </li>
                             <li>
                                 If the river reaches the end of the map, the game is over.
@@ -72,7 +73,7 @@ export default class RulesPage extends Component {
                         </div>
                         <div className='img-caption-container'>
                             <img src={screenshot2} alt='screenshot of gameplay' className='screenshot gameplay' />
-                            <p className='mobile-caption'>The river has changed course and fully eroded it's target. That tile has become part of the river. The new target (in red) will be the next tile in line according to the river's direction (in this case, right).</p>
+                            <p className='mobile-caption'>The river has changed course and fully eroded the soil tile, which has become part of the river. The new target (in red) will be the next tile in line according to the river's direction (in this case, right). The target's resistance will be compared to the adjacent tiles (in blue).</p>
                         </div>
                     </div>
                     <h4>Locked rows and columns:</h4>
@@ -95,12 +96,12 @@ export default class RulesPage extends Component {
                                 </ul>
                             </li>
                             <li>
-                                Soil bonus: The more fertile soil along your river, the better! For each river tile, a bonus of 300 point is granted for each adjacent soil tile.
+                                Soil bonus: The more fertile soil along your river, the better! For each river tile, a bonus of 300 points is granted for each adjacent soil tile.
                             </li>
                         </ul>
                 </section>
                 <section className='confused'>
-                    Confused? Just try playing a game and it will all make more sense!
+                    <p>Confused? Just try playing a game and it will all make more sense!</p>
                     <Link className='play-button' to='/play'>Play Erosion</Link>
                 </section>
             </div>

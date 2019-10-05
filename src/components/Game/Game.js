@@ -166,11 +166,17 @@ export default class Game extends Component {
         this.postScore(newScore)
     }
 
+    pauseBeforeFinalScore(target) {
+        setTimeout(() => {
+            this.finalScore(target)
+        }, 500)
+    }
+
     checkForEnd(target) {
         //if the target is on an edge && the target is not the start
         if ((((target.row === 0) || (target.row === 4)) && !((target.row === this.state.riverStart.row) && (target.column === this.state.riverStart.column))) || 
            (((target.column === 0) || (target.column === 4)) && !((target.row === this.state.riverStart.row) && (target.column === this.state.riverStart.column)))) {
-            this.finalScore(target)
+            this.pauseBeforeFinalScore(target)
         }
         else {
             this.updateErosionTarget(target)
@@ -734,6 +740,7 @@ export default class Game extends Component {
                 <p><span className='score-factor'>Initial Score: {score.score}</span><span className='score-factor'>Soil Tile Bonus: {score.soilBonus}</span><span className='score-factor'>End Location Bonus: Score x {score.locationBonus}</span></p>
                 <Link className='game-over-link' to='/play' onClick={() => this.reloadRoute()}>Play Again</Link>
                 <Link className='game-over-link' to='/my-games'>View Your Previous Scores</Link>
+                <Link className='game-over-link' to='/leaderboard'>Check the Leaderboard</Link>
             </div>
             <div className='game'>
                 <div className='setup-reminders'>
@@ -741,7 +748,7 @@ export default class Game extends Component {
                     <div><span>River end target:</span><div className='color river-end'></div></div>
                     <div><span>Erosion target:</span><div className='color target-tile'></div></div>
                 </div>
-                {this.state.gameOver === false ? <h3>Score: {score.score}</h3> : <h3>Final Score: {score.final}</h3>}
+                {this.state.gameOver === false ? <h3 className='score'>Score: {score.score}</h3> : <h3>Final Score: {score.final}</h3>}
                 <div className='button-row'>
                     <div className='shift-button-vert'><button onClick={() => this.columnShiftUp(0)} disabled={col0Disabled || buttonsDisabled} className='shift-button'><img className='chevron vert' src={chevronUp} alt='shift up'/></button></div>
                     <div className={'shift-button-vert ' + ((startRow === 0 && startCol === 1) ? 'river-start' : '')}><button onClick={() => this.columnShiftUp(1)} disabled={col1Disabled || buttonsDisabled} className='shift-button'><img className='chevron vert' src={chevronUp} alt='shift up'/></button></div>

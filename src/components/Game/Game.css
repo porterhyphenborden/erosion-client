@@ -1,7 +1,8 @@
 .game {
     display: flex;
     flex-direction: column;
-    width: 70%;
+    width: 75%;
+    max-width: 580px;
     margin: 0 auto;
     padding: 0 10px;
 }
@@ -30,35 +31,35 @@
 }
 
 .soil {
-    background-image: url('https://i.imgur.com/I0VA0cp.png');
+    background-image: url(../../images/soil.png);
     background-repeat: no-repeat;
     background-size: cover;
     background-color: rgb(109, 80, 60);
 }
 
 .sandstone {
-    background-image: url('https://i.imgur.com/ZYx5pHZ.png');
+    background-image: url(../../images/sandstone.png);
     background-repeat: no-repeat;
     background-size: cover;
     background-color: rgb(248, 245, 212);
 }
 
 .limestone {
-    background-image: url('https://i.imgur.com/S89yk6j.png');
+    background-image: url(../../images/limestone.png);
     background-repeat: no-repeat;
     background-size: cover;
     background-color: rgb(195, 215, 221);
 }
 
 .granite {
-    background-image: url('https://i.imgur.com/3pf1CbM.png');
+    background-image: url(../../images/granite.png);
     background-repeat: no-repeat;
     background-size: cover;
     background-color: rgb(122, 122, 122);
 }
 
 .quartz {
-    background-image: url('https://i.imgur.com/Jisbqvv.png');
+    background-image: url(../../images/quartz.png);
     background-repeat: no-repeat;
     background-size: cover;
     background-color: rgb(252, 236, 238);
@@ -92,14 +93,17 @@ button.shift-button {
 
 .skip-button {
     cursor: pointer;
-    align-self: center;
-    background-color: lightgray;
-    border: 2px solid #183644;
+    display: block;
+    margin: 10px auto 0 auto;
+    text-align: center;
+    background-color: #123b50;
+    border: 1px solid #b3805c;
+    color: #b3805c;
     border-radius: 4px;
-    padding: 3px 6px;;
-    font-size: 15px;
-    box-shadow: 2px 2px lightgray;
-    margin: 10px 0 0 0;
+    padding: 2px 8px 4px 8px;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 2px 2px #a5a4a4;
 }
 
 img.chevron {
@@ -117,7 +121,7 @@ img.chevron {
 }
 
 .river-tile {
-    background-image: url('https://i.imgur.com/mL9cpaG.png');
+    background-image: url(../../images/water.png);
     background-repeat: no-repeat;
     background-size: cover;
     background-color: rgb(1, 77, 100);
@@ -138,17 +142,23 @@ img.chevron {
     width: 100%;
     z-index: 1;
     left: 0;
-    top: 87px;
-    padding-top: 60px;
-    color: white;
+    top: 0;
+    padding-top: 160px;
+    color: #bb8763;
     text-align: center;
+}
+
+.final-screen p span {
+    font-size: 20px;
+    display: block;
+    font-weight: bold;
 }
 
 a.game-over-link {
     display: block;
-    color: lightblue;
-    font-size: 18px;
-    text-decoration: none;
+    color: #469acc;
+    font-size: 20px;
+    text-decoration: underline;
     margin: 10px;
 }
 
@@ -164,7 +174,7 @@ span.score-factor {
 }
 
 .setup-reminders {
-    margin: 20px 0 5px 0;
+    margin: 10px 0 5px 0;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -174,25 +184,30 @@ span.score-factor {
 form.map-selection {
     display: flex;
     flex-direction: column;
-    margin: 40px auto 0 auto;
+    margin: 10px auto 0 auto;
     width: 60%;
     max-width: 350px;
 }
 
 .map-selection input, .map-selection label, .map-selection select, .map-selection button {
-    margin: 10px;
+    margin: 5px;
+    font-size: 18px;
 }
 
 .map-selection button {
-    width: 150px;
-    margin: 10px auto;
     cursor: pointer;
-    background-color: lightgray;
-    border: 2px solid black;
+    display: block;
+    margin: 10px auto 10px auto;
+    text-align: center;
+    width: 120px;
+    background-color: #123b50;
+    border: 1px solid #a17453;
+    color: #a17453;
     border-radius: 4px;
-    padding: 3px 6px;;
-    font-size: 15px;
-    box-shadow: 2px 2px lightgray;
+    padding: 2px 6px 4px 6px;
+    font-size: 20px;
+    font-weight: bold;
+    box-shadow: 2px 2px #a5a4a4;
 }
 
 div.map-preview {
@@ -205,15 +220,20 @@ div.map-preview {
     width: 100%;
 }
 
+h3.score {
+    margin-bottom: 0;
+}
+
 @media screen and (max-width: 850px) {
     .final-screen {
-        top: 106px;
+        top: 0;
     }
 }
 
 @media screen and (max-width: 650px) {
     div.game {
         width: 100%;
+        max-width: 480px;
     }
 
     .final-screen {
