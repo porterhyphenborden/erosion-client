@@ -1,9 +1,9 @@
 div.leaderboard {
     width: 60%;
-    margin: 40px auto 10px auto;
+    margin: 20px auto 10px auto;
     background-color: #123b50;
     color: #469acc;
-    padding: 10px 0 0 0;
+    padding: 10px 0;
 }
 
 .leaderboard h2 {
@@ -26,7 +26,7 @@ li.high-score {
 
 .high-scores span {
     text-align: center;
-    margin: 10px;
+    margin: 5px;
     width: 35%;
 }
 
@@ -36,6 +36,11 @@ span.rank {
 
 @media screen and (max-width: 650px) {
     div.leaderboard {
-        width: 100%;
+        width: 90%;
     }
+
+    li.high-score {
+        font-size: 20px;
+    }
+
 }
