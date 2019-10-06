@@ -66,7 +66,18 @@ const ErosionApiService = {
                     : res.json()
             )
     },
-
+    getUsers() {
+        return fetch(`${config.API_ENDPOINT}/users`, {
+            method: 'GET',
+            headers: {
+            },
+        })
+            .then(res =>
+                (!res.ok)
+                    ? res.json().then(e => Promise.reject(e))
+                    : res.json()
+            )
+    }
 }
 
 export default ErosionApiService

@@ -677,6 +677,7 @@ export default class Game extends Component {
     }
 
     render() {
+        let error = this.state.error
         let startCol = this.state.riverStart ? this.state.riverStart.column : null
         let startRow = this.state.riverStart ? this.state.riverStart.row : null
         let endRow = this.state.riverEnd ? this.state.riverEnd.row : null
@@ -707,6 +708,9 @@ export default class Game extends Component {
                 <>
                     <form className='map-selection' name='map-selection' onSubmit={e => this.handleSubmit(e)}>
                         <h2>Play Erosion!</h2>
+                        <div role='alert'>
+                            {error && <div className='error'>{error}</div>}
+                        </div>
                         <label htmlFor='map'>Choose a map:</label>
                         <select name='map' ref={el => this.el = el} id='map'onChange={e => this.updateMap(e.target.value || null)}>
                             <option value={null}></option>
@@ -727,7 +731,12 @@ export default class Game extends Component {
 
         else if (this.state.board === null) {
             return (
-                <div className='loading'>LOADING</div>
+                <>
+                    <div className='loading'>LOADING</div>
+                    <div role='alert'>
+                        {error && <div className='error'>{error}</div>}
+                    </div>
+                </>
             )
         }
 
@@ -743,6 +752,9 @@ export default class Game extends Component {
                 <Link className='game-over-link' to='/leaderboard'>Check the Leaderboard</Link>
             </div>
             <div className='game'>
+                <div role='alert'>
+                    {error && <div className='error'>{error}</div>}
+                </div>
                 <div className='setup-reminders'>
                     <div><span>River start:</span><div className='color river-start'></div></div>
                     <div><span>River end target:</span><div className='color river-end'></div></div>

@@ -59,6 +59,7 @@ export default class UserLandingPage extends Component {
 
     render() {
         const scores = this.context.userScores
+        const error = this.state.error
         const map1scores = scores.filter(score => score.map_id === 1)
         const map2scores = scores.filter(score => score.map_id === 2)
         const map3scores = scores.filter(score => score.map_id === 3)
@@ -67,6 +68,9 @@ export default class UserLandingPage extends Component {
         return (
             <div className='user-page'>
                 <h2>MY GAMES</h2>
+                <div role='alert'>
+                    {error && <div className='error'>{error}</div>}
+                </div>
                 <div className='user-scores'>
                     <section className='map1'>
                         <button className='scores-toggle' disabled={!map1scores.length} onClick={() => this.toggleScores1()}>MAP 1</button>

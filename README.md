@@ -1,68 +1,47 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Erosion
 
-## Available Scripts
+https://erosion.porterhyphenborden.now.sh/
 
-In the project directory, you can run:
+## Sumary
 
-### `npm start`
+### Concept
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Erosion is a single-player puzzle game where you, an alien colonist, are tasked with terraforming the terrain of a newly-discovered planet. Manipulate the grid of land tiles to guide the river to it's target location, earning points along the way for eroding tiles and leaving fertile soil along the river. Learn how to play the game and earn your place on the Leaderboard!
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+### Description
 
-### `npm test`
+This logic-based puzzle game offers quick gameplay but allows for complex strategy. The user must shift a grid of tiles to determine the course of the river, which can be manipulated by strategically placing tiles of higher resistance. The final score is influenced by several different factors, making diverse strategies available to the player. Registered users can play multiple maps and view their previous scores.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Screenshots
 
-### `npm run build`
+### Map Selection:
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![Map Selection](https://i.imgur.com/TZuj71I.png)
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+### Gameplay:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+![Gameplay](https://i.imgur.com/K12LS7y.png)
 
-### `npm run eject`
+### Leaderboard:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+![Leaderboard](https://i.imgur.com/qL0xyfu.png)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Built with
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+* HTML
+* CSS
+* Javascript
+* Node.js
+* Express
+* ReactJS
+* PostgreSQL
 
-## Learn More
+## Author
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Callie Porter-Borden
+Game concept by Chris Hofmeister
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
 
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
